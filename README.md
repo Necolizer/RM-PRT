@@ -1,2 +1,2 @@
-# GCMRM
-Generic Cross-Modal Robotics Manipulation in High-precision Environment
+# Enhanced RM-GPT
+A Comprehensive Robotics Manipulation Benchmark Integrated with GPT
