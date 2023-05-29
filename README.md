@@ -1,2 +1,2 @@
-# Enhanced RM-GPT
-A Comprehensive Robotics Manipulation Benchmark Integrated with GPT
+# RM-GPT
+Realistic Robotic Manipulation Simulator and Benchmark with Progressive Reasoning Levels
