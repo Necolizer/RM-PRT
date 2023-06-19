@@ -6,7 +6,7 @@
 
 ## Getting Started
 First download a [model checkpoint](https://drive.google.com/file/d/1shH1DV6_rrq7hS6Zn0LrfT7LXbDQt3Us/view?usp=drive_link). <br>
-run the inference code.
+Run the inference code.
 ```
 python inference.py --host=localhost:30001 --action_nums=8
 ```
