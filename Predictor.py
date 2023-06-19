@@ -32,6 +32,9 @@ class Predictor(nn.Cell):
         instructionID=obs['instruction'][0]
         instruction=self.database[self.database['id']==instructionID]['instruction'].values[0]
         instructions = [instruction]
+        """
+        Add LLM here for instruction parsing
+        """
         text_embeds=self.RT1.conditioner.embed_texts(instructions)
         train_logits = self.RT1(head_rgb, text_embeds=text_embeds)
         fea1=self.extractors[0](train_logits)
