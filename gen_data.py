@@ -312,13 +312,15 @@ def gen_scene(sim_client,level,sceneID=0,training=True,deterministic=False):
     df=pd.read_csv('instructions/training.csv')
     if level<=3:
         if level==1:
+            min_nums=1
             max_nums=1
         else:
-            max_nums=3
-        objs=gen_objs(sim_client,random.randint(1,max_nums),sceneID,deterministic)
+            min_nums=3
+            max_nums=4
+        objs=gen_objs(sim_client,random.randint(min_nums,max_nums),sceneID,deterministic)
         while len(objs)==0:
             time.sleep(1)
-            objs=gen_objs(sim_client,random.randint(1,max_nums),sceneID,deterministic)
+            objs=gen_objs(sim_client,random.randint(min_nums,max_nums),sceneID,deterministic)
         targetObj=name_type[objs[0][0]]
         df=df[(df['level']==level) & (df['object']==targetObj)]
         if level>2:
