@@ -6,9 +6,14 @@
 ![Simulator](./imgs/Simulator.jpg)
 
 ## Getting Started
-First download a [model checkpoint](https://drive.google.com/file/d/1shH1DV6_rrq7hS6Zn0LrfT7LXbDQt3Us/view?usp=drive_link). <br>
-Run the inference code.
+```bash
+git clone -b main https://github.com/Necolizer/RM-PRT.git
 ```
+
+First download a [model checkpoint](https://drive.google.com/file/d/1shH1DV6_rrq7hS6Zn0LrfT7LXbDQt3Us/view?usp=drive_link).
+
+Run the inference code.
+```bash
 python inference.py --host=localhost:30001 --action_nums=8
 ```
 
