@@ -70,3 +70,52 @@ env.action_space
     "grasp": Box(0, 1,   dtype=np.int32),
 }
 ```
+## API using
+Connect to the simulator
+```bash
+channel = grpc.insecure_channel('127.0.0.1:30001')  # FIXME
+channel = grpc.insecure_channel(client,options=[
+            ('grpc.max_send_message_length', 1024*1024*1024),
+            ('grpc.max_receive_message_length', 1024*1024*1024)
+        ])
+stub=GrabSim_pb2_grpc.GrabSimStub(channel)
+```
+Init the world
+```bash
+initworld = stub.Init(GrabSim_pb2.Count(value = value)) # value present the number of scene 
+```
+Reset the scene
+```bash
+stub.Reset(GrabSim_pb2.ResetParams(sceneID=sceneID)) #sceneID start from 0
+```
+Get observation of the scene and show env info
+```bash
+scene = stub.Observe(GrabSim_pb2.SceneID(value=sceneID))
+print('------------------show_env_info----------------------')
+print(f"sceneID:{scene.sceneID}, location:{[scene.location.X, scene.location.Y]}, rotation:{scene.rotation}\n",
+      f"joints number:{len(scene.joints)}\n")
+```
+Get the images
+```bash
+caremras=[GrabSim_pb2.CameraName.Head_Color,GrabSim_pb2.CameraName.Head_Depth]
+action = GrabSim_pb2.CameraList(sceneID=sceneID, cameras=caremras)
+images = stub.Capture(action).images
+```
+Do action
+```bash
+stub.Do(GrabSim_pb2.Action(sceneID=sceneID, action = GrabSim_pb2.Action.ActionType.WalkTo,values = [x, y, Yaw, q, v])) # walk
+stub.Do(GrabSim_pb2.Action(sceneID=sceneID, action = GrabSim_pb2.Action.ActionType.RotateJoints,values = joints)) # changeJoints
+stub.Do(GrabSim_pb2.Action(sceneID=sceneID, action=GrabSim_pb2.Action.Grasp,values=[0])) # control robot hand to grasp, 0 is left hand, 1 is right hand
+stub.Do(GrabSim_pb2.Action(sceneID=sceneID, action=GrabSim_pb2.Action.Release,values=[0])) # release robot hand, 0 is left hand, 1 is right hand
+```
+Make Objects
+```bash
+obj_list = [
+        GrabSim_pb2.ObjectList.Object(x=x, y=y, yaw=yaw, z=desk_h, type=obj_type),
+    ]
+scene = stub.MakeObjects(GrabSim_pb2.ObjectList(objects=obj_list, sceneID=sceneID))
+```
+Clean Objects
+```bash
+stub.CleanObjects(GrabSim_pb2.SceneID(value=sceneID))
+```
