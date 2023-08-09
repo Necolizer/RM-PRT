@@ -1,5 +1,18 @@
 # Simulator
-the RM-PRT simulator is a new high-fidelity digital twin scene based on Unreal Engine 5, which includes 782 categories, 2023 objects.
+The RM-PRT simulator is a new high-fidelity digital twin scene based on Unreal Engine 5, which includes 782 categories, 2023 objects.
+
+# Scene
+<div align=center>
+<img src="../imgs/HighresScreenshot00007.png" width="200"><img src="../imgs/HighresScreenshot00008.png" width="200">
+</div>
+
+<div align=center>
+<img src="../imgs/HighresScreenshot00009.png" width="200"><img src="https://github.com/Necolizer/RM-PRT/blob/gh-pages/docs/static/images/render/2.jpg" width="200">
+</div>
+
+High-resolution rendering of the digital twin scene.
+
+Examples of robotic manipulation in our RM-PRT simulator.
 
 ## Getting Started
 ### Installation
