@@ -5,11 +5,7 @@
 
 ![Simulator](./imgs/Simulator.jpg)
 ## Simulator Details
-You can see details about our simulator through these [files](https://drive.google.com/drive/folders/1jLXAU9eHE6rcpLtohepGlb654mUbA4KR?usp=sharing):
-* GrabSim_pb2.py & GrabSim_pb2_grpc.py: API for interacting with the simulator
-* SIM API.pdf: API introduction
-* SYSU_sim_test.py: Examples for API using
-* 
+You can see details about our simulator in [Env](https://github.com/Necolizer/RM-PRT/blob/main/Env/README.md)
 ## Getting Started
 
 ```bash
