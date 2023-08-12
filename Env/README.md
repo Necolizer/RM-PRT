@@ -1,5 +1,5 @@
 # Simulator
-The RM-PRT simulator is a new high-fidelity digital twin scene based on Unreal Engine 5, which includes 782 categories, 2023 objects.
+The RM-PRT simulator is a new high-fidelity digital twin scene based on Unreal Engine 5, which includes 782 categories, 2023 object entities.
 
 # Scene
 <div align=center>
