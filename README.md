@@ -5,7 +5,7 @@
 
 ![Simulator](./imgs/Simulator.jpg)
 ## Simulator Details
-You can see details about our simulator in [Env](https://github.com/Necolizer/RM-PRT/blob/main/Env/README.md)
+You can see details about our simulator in [Env](https://github.com/Necolizer/RM-PRT/blob/main/Env/README.md).
 ## Getting Started
 
 ```bash
