@@ -16,7 +16,7 @@
 ## Environment
 ### Resource Consumption
 In our experiments, we used 1 NVIDIA GeForce RTX 3090 GPU. And the simulator occupies approximately 2 to 3GB of GPU memory.
-### Simulator Details
+### Simulator
 See [simulator details](https://github.com/Necolizer/RM-PRT/blob/main/Env/README.md).
 
 ## Getting Started
