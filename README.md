@@ -6,7 +6,7 @@
 ![Simulator](./imgs/Simulator.jpg)
 
 ## Updates
-_8/13/2023_
+**_8/13/2023_**
 
 
 ## Environment
