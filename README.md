@@ -3,7 +3,7 @@
 
 ## Updates
 <details>
-<summary> **8/13/2023** </summary>
+<summary> 8/13/2023 </summary>
 🚀🚀 We have released the first version [1.0.0](https://github.com/Necolizer/RM-PRT/releases/tag/v1.0.0) of the RM-PRT benchmark simulator.   
    
    - Built on UE5.
