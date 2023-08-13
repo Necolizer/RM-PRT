@@ -3,7 +3,7 @@
 
 ## Updates
 <details>
-<summary> **8/13/2023**__: 🚀🚀 We have released the first version [1.0.0](https://github.com/Necolizer/RM-PRT/releases/tag/v1.0.0) of the RM-PRT benchmark simulator.</summary>
+<summary> **8/13/2023**: 🚀🚀 We have released the first version [1.0.0](https://github.com/Necolizer/RM-PRT/releases/tag/v1.0.0) of the RM-PRT benchmark simulator.</summary>
    
    - Built on UE5.
    - Supports [instruction tasks](https://github.com/Necolizer/RM-PRT/blob/main/Env/README.md#tasks) with 4 different difficulty levels.
