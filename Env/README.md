@@ -21,7 +21,7 @@ Examples of robotic manipulation in our RM-PRT simulator.
 ```bash
 pip install gym==0.21.0 protobuf==3.20.0 grpcio==1.53.0
 ```
-### Quickstart
+### Quick Start
 Here is a basic example of how to create an environment under our simulator.
 ```bash
 import argparse
