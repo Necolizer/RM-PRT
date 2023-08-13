@@ -7,7 +7,7 @@
 
 ## Updates
 **_8/13/2023_**
-
+1. We have released the first version [1.0.0](https://github.com/Necolizer/RM-PRT/releases/tag/v1.0.0) of the RM-PRT benchmark simulator.
 
 ## Environment
 ### Resource Consumption
