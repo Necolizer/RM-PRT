@@ -40,3 +40,7 @@ python inference.py --host=localhost:30001 --action_nums=8
       journal={arXiv:2306.11335}
 }
 ```
+
+## License
+
+This repository is released under the Apache 2.0 license as found in the [LICENSE](LICENSE.md) file.
