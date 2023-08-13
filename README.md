@@ -8,6 +8,11 @@
 ## Updates
 **_8/13/2023_**
 1. We have released the first version [1.0.0](https://github.com/Necolizer/RM-PRT/releases/tag/v1.0.0) of the RM-PRT benchmark simulator.
+   - Built on UE5.
+   - Supports [instruction tasks](https://github.com/Necolizer/RM-PRT/blob/main/Env/README.md#tasks) with 4 different difficulty levels.
+   - Support for grabbing tasks.
+   - Contains 782 object categories and 2023 entities.
+
 
 ## Environment
 ### Resource Consumption
