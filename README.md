@@ -14,7 +14,7 @@
      
 </details>
 
-## ToDo
+## To Do
 - [ ] Integrate the physical simulation tool Mujoco into UE5 to support more skill libraries.
 - [ ] Support more scenarios.
 
