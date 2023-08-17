@@ -166,7 +166,6 @@ env.action_space
 }
 ```
 ## Joints
-
 ### Joints Information
 
 | JointName | Name                | PositiveDirection |
@@ -193,46 +192,52 @@ env.action_space
 | 19        | RWrist_X_Anchorn    | back              |
 | 20        | RWrist_Y_Anchorn    | in                |
 
-### Joints Range
+### Joints Range 
 
-```bash
-joints_arrange/° = [
-        [-36,30], 
-        [-90,90], 
-        [-45,45], 
-        [-45,45], 
-        [-180,180],
-        [-45,36], 
-        [-23,23], 
+  ```bash
+  joints_arrange/° = [
+  [-36,30], 
+  [-90,90], 
+  [-45,45], 
+  [-45,45], 
+  [-180,180],
+  [-45,36], 
+  [-23,23], 
+  
+  # left hand
+  [-180,36], 
+  [-23,90], 
+  [-90,90], 
+  [-120,12], 
+  [-90,90], 
+  [-23,23], 
+  [-36,23],
+  
+  #right hand
+  [-180,36],
+  [-90,23], 
+  [-90,90],
+  [-120,12], 
+  [-90,90],
+  [-23,23],
+  [-23,36], 
+  ]
+  ```
 
-        # left hand
-        [-180,36], 
-        [-23,90], 
-        [-90,90], 
-        [-120,12], 
-        [-90,90], 
-        [-23,23], 
-        [-36,23],
+</detail>
 
-        #right hand
-        [-180,36],
-        [-90,23], 
-        [-90,90],
-        [-120,12], 
-        [-90,90],
-        [-23,23],
-        [-23,36], 
-    ]
-```
+
+
+
 ## API using
 **Connect to the simulator**
 
 ```bash
 channel = grpc.insecure_channel('127.0.0.1:30001')  # FIXME
 channel = grpc.insecure_channel(client,options=[
-            ('grpc.max_send_message_length', 1024*1024*1024),
-            ('grpc.max_receive_message_length', 1024*1024*1024)
-        ])
+          ('grpc.max_send_message_length', 1024*1024*1024),
+          ('grpc.max_receive_message_length', 1024*1024*1024)
+      ])
 stub=GrabSim_pb2_grpc.GrabSimStub(channel)
 ```
 **Init the world**
