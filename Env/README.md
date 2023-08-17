@@ -42,10 +42,10 @@ Examples of robotic manipulation in our RM-PRT simulator.
 <details>
 <summary> Devices without graphical interfaces </summary>
 
-- Verifying GitHub Access[^1]
+- **Verifying GitHub Access[^1]**
 
   Verify that you can access the Unreal Engine source code repository on GitHub: https://github.com/EpicGames/UnrealEngine. If you cannot access the repository then you will need to [link your GitHub account with your Epic Games Account](https://www.unrealengine.com/en-US/ue-on-github).
-- Authenticating with GitHub Container Registry
+- **Authenticating with GitHub Container Registry**
   
   To download container images from GitHub Container Registry using Docker you will need to authenticate using a personal access token. If you do not already have a personal access token with the `read:packages` scope then you will need to [follow the steps to create one](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
@@ -59,7 +59,7 @@ Examples of robotic manipulation in our RM-PRT simulator.
   
   If the authentication process was successful then you should see the message *"Login Succeeded"* displayed.
 
-- Pulling Prebuilt Container Images
+- **Pulling Prebuilt Container Images**
 
   The official prebuilt container images for Unreal Engine are stored as image tags in the [ghcr.io/epicgames/unreal-engine](https://ghcr.io/epicgames/unreal-engine) repository. To download the Linux development image for Unreal Engine 4.27, use the `docker pull` command shown below:
   
@@ -69,11 +69,11 @@ Examples of robotic manipulation in our RM-PRT simulator.
   
   This will download a container image that encapsulates the files for Unreal Editor and build tools, which are quite large. Depending on the speed of your internet connection, the download process may take some time. When the download is complete, you should see the message *"Status: Downloaded newer image for ghcr.io/epicgames/unreal-engine:dev-4.27"* displayed.
 
-- Building the Container
+- **Building the Container**
 
   Use the following docker file code to create a new one to run.
 
-- Dockerfile:
+- **Dockerfile**
 
   ```bash
   FROM ghcr.io/epicgames/unreal-engine:runtime-pixel-streaming
@@ -86,13 +86,13 @@ Examples of robotic manipulation in our RM-PRT simulator.
   CMD []
   ```
 
-- Create Image
+- **Create Image**
   
   ```bash
   docker build -t name .
   ```
 
-- Create a container
+- **Create a container**
 
   ```bash
   nvidia-docker run -it -p 30001:30001 --name sim30001 name:latest
