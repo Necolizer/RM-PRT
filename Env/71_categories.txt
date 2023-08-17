@@ -18,7 +18,6 @@
 | 15   | Date                 |
 | 16   | Stapler              |
 | 17   | LunchBox             |
-| 18   | Bracelet             |
 | 19   | MilkDrink            |
 | 20   | CocountWater         |
 | 21   | Walnut               |
@@ -64,7 +63,6 @@
 | 61   | Milk                 |
 | 62   | Soap                 |
 | 63   | Novel                |
-| 64   | Watermelon           |
 | 65   | Tomato               |
 | 66   | CleansingFoam        |
 | 67   | CocountMilk          |
