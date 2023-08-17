@@ -36,69 +36,70 @@ Examples of robotic manipulation in our RM-PRT simulator.
 ### Launch Simulator
 <details>
 <summary> Devices with graphical interfaces </summary>
-run the appropriate executable file in Windows or Linux.
+    Run the appropriate executable file in Windows or Linux.
 </details>
+
 <details>
 <summary> Devices without graphical interfaces </summary>
 
 - Verifying GitHub Access[^1]
-Verify that you can access the Unreal Engine source code repository on GitHub: https://github.com/EpicGames/UnrealEngine. If you cannot access the repository then you will need to [link your GitHub account with your Epic Games Account](https://www.unrealengine.com/en-US/ue-on-github).
 
-**Authenticating with GitHub Container Registry**
+  Verify that you can access the Unreal Engine source code repository on GitHub: https://github.com/EpicGames/UnrealEngine. If you cannot access the repository then you will need to [link your GitHub account with your Epic Games Account](https://www.unrealengine.com/en-US/ue-on-github).
+- Authenticating with GitHub Container Registry
+  
+  To download container images from GitHub Container Registry using Docker you will need to authenticate using a personal access token. If you do not already have a personal access token with the `read:packages` scope then you will need to [follow the steps to create one](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
-To download container images from GitHub Container Registry using Docker you will need to authenticate using a personal access token. If you do not already have a personal access token with the `read:packages` scope then you will need to [follow the steps to create one](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+  Once you have created a personal access token with the required scope, use the `docker login` command to authenticate with GitHub Container Registry as described in the [instructions from GitHub](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry). This command will need to be run from the command-line interface。
+  
+  Once you have opened the command-line prompt then run the command shown below, replacing `ACCESS_TOKEN` with your personal access token and `USERNAME` with your GitHub username:
+  
+  ```bash
+  echo ACCESS_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+  ```
+  
+  If the authentication process was successful then you should see the message *"Login Succeeded"* displayed.
 
-Once you have created a personal access token with the required scope, use the `docker login` command to authenticate with GitHub Container Registry as described in the [instructions from GitHub](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry). This command will need to be run from the command-line interface。
+- Pulling Prebuilt Container Images
 
-Once you have opened the command-line prompt then run the command shown below, replacing `ACCESS_TOKEN` with your personal access token and `USERNAME` with your GitHub username:
+  The official prebuilt container images for Unreal Engine are stored as image tags in the [ghcr.io/epicgames/unreal-engine](https://ghcr.io/epicgames/unreal-engine) repository. To download the Linux development image for Unreal Engine 4.27, use the `docker pull` command shown below:
+  
+  ```bash
+  docker pull ghcr.io/epicgames/unreal-engine:dev-4.27
+  ```
+  
+  This will download a container image that encapsulates the files for Unreal Editor and build tools, which are quite large. Depending on the speed of your internet connection, the download process may take some time. When the download is complete, you should see the message *"Status: Downloaded newer image for ghcr.io/epicgames/unreal-engine:dev-4.27"* displayed.
 
-```bash
-echo ACCESS_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
-```
+- Building the Container
 
-If the authentication process was successful then you should see the message *"Login Succeeded"* displayed.
+  Use the following docker file code to create a new one to run.
 
-**Pulling Prebuilt Container Images**
+- Dockerfile:
 
-The official prebuilt container images for Unreal Engine are stored as image tags in the [ghcr.io/epicgames/unreal-engine](https://ghcr.io/epicgames/unreal-engine) repository. To download the Linux development image for Unreal Engine 4.27, use the `docker pull` command shown below:
+  ```bash
+  FROM ghcr.io/epicgames/unreal-engine:runtime-pixel-streaming
+  
+  COPY --chown=ue5:ue5 LinuxClient path/to/LinuxClient
+  
+  ENV NVIDIA_DRIVER_CAPABILITIES all
+  
+  ENTRYPOINT ["bin/bash", "/path/to/LinuxClient/GrabSimClient.sh", "-RenderOffScreen"]
+  CMD []
+  ```
 
-```bash
-docker pull ghcr.io/epicgames/unreal-engine:dev-4.27
-```
+- Create Image
+  
+  ```bash
+  docker build -t name .
+  ```
 
-This will download a container image that encapsulates the files for Unreal Editor and build tools, which are quite large. Depending on the speed of your internet connection, the download process may take some time. When the download is complete, you should see the message *"Status: Downloaded newer image for ghcr.io/epicgames/unreal-engine:dev-4.27"* displayed.
+- Create a container
 
-**Building the Container**
-
-Use the following docker file code to create a new one to run.
-
-**Dockerfile**:
-
-```bash
-FROM ghcr.io/epicgames/unreal-engine:runtime-pixel-streaming
-
-COPY --chown=ue5:ue5 LinuxClient path/to/LinuxClient
-
-ENV NVIDIA_DRIVER_CAPABILITIES all
-
-ENTRYPOINT ["bin/bash", "/path/to/LinuxClient/GrabSimClient.sh", "-RenderOffScreen"]
-CMD []
-```
-
-**Create Image**
-
-```bash
-docker build -t name .
-```
-
-**Create a container**
-
-```bash
-nvidia-docker run -it -p 30001:30001 --name sim30001 name:latest
-```
-
-[^1]: https://docs.unrealengine.com/5.0/en-US/quick-start-guide-for-using-container-images-in-unreal-engine/
-</details>
+  ```bash
+  nvidia-docker run -it -p 30001:30001 --name sim30001 name:latest
+  ```
+  
+  [^1]: https://docs.unrealengine.com/5.0/en-US/quick-start-guide-for-using-container-images-in-unreal-engine/
+  </details>
 
 
 ### Installation
