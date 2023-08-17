@@ -1,6 +1,4 @@
 # Simulator
-The RM-PRT simulator is a new high-fidelity digital twin scene based on Unreal Engine 5, which includes 782 categories, 2023 object entities.
-
 # Scene
 <div align=center>
 <img src="../imgs/HighresScreenshot00007.png" width="300"> <img src="../imgs/HighresScreenshot00008.png" width="300"> <img src="https://github.com/Necolizer/RM-PRT/blob/gh-pages/docs/static/images/render/3.jpg" width="300">
@@ -17,7 +15,77 @@ https://github.com/Necolizer/RM-PRT/assets/58028682/02fc70c6-a636-4fdc-90e5-4d60
 Examples of robotic manipulation in our RM-PRT simulator.
 
 ## Getting Started
+### Launch Simulator
+
+#### Devices with graphical interfaces
+
+run the appropriate executable file in windows or Linux.
+
+#### Devices without graphical interfaces
+
+#### Verifying GitHub Access
+
+Verify that you can access the Unreal Engine source code repository on GitHub: https://github.com/EpicGames/UnrealEngine. If you cannot access the repository then you will need to [link your GitHub account with your Epic Games Account](https://www.unrealengine.com/en-US/ue-on-github).
+
+#### Authenticating with GitHub Container Registry
+
+To download container images from GitHub Container Registry using Docker you will need to authenticate using a personal access token. If you do not already have a personal access token with the `read:packages` scope then you will need to [follow the steps to create one](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+
+Once you have created a personal access token with the required scope, use the `docker login` command to authenticate with GitHub Container Registry as described in the [instructions from GitHub](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry). This command will need to be run from the command-line interface。
+
+Once you have opened the command-line prompt then run the command shown below, replacing `ACCESS_TOKEN` with your personal access token and `USERNAME` with your GitHub username:
+
+```bash
+echo ACCESS_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+```
+
+If the authentication process was successful then you should see the message *"Login Succeeded"* displayed.
+
+#### Pulling Prebuilt Container Images
+
+The official prebuilt container images for Unreal Engine are stored as image tags in the [ghcr.io/epicgames/unreal-engine](https://ghcr.io/epicgames/unreal-engine) repository. To download the Linux development image for Unreal Engine 4.27, use the `docker pull` command shown below:
+
+```bash
+docker pull ghcr.io/epicgames/unreal-engine:dev-4.27
+```
+
+This will download a container image that encapsulates the files for Unreal Editor and build tools, which are quite large. Depending on the speed of your internet connection, the download process may take some time. When the download is complete, you should see the message *"Status: Downloaded newer image for ghcr.io/epicgames/unreal-engine:dev-4.27"* displayed.
+
+#### Building the Container
+
+Use the following docker file code to create a new one to run.
+
+**Dockerfile**:
+
+```bash
+FROM ghcr.io/epicgames/unreal-engine:runtime-pixel-streaming
+
+COPY --chown=ue5:ue5 LinuxClient path/to/LinuxClient
+
+ENV NVIDIA_DRIVER_CAPABILITIES all
+
+ENTRYPOINT ["bin/bash", "/path/to/LinuxClient/GrabSimClient.sh", "-RenderOffScreen"]
+CMD []
+```
+
+**Create Image**
+
+```bash
+docker build -t name .
+```
+
+**Create a container**
+
+```bash
+nvidia-docker run -it -p 30001:30001 --name sim30001 name:latest
+```
+
+[^1]: https://docs.unrealengine.com/5.0/en-US/quick-start-guide-for-using-container-images-in-unreal-engine/
+
+
+
 ### Installation
+
 ```bash
 pip install gym==0.21.0 protobuf==3.20.0 grpcio==1.53.0
 ```
@@ -39,7 +107,7 @@ import GrabSim_pb2
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--host", type=str,default="localhost:30001")
-parser.add_argument("--action_nums", type=int,default=8)
+parser.add_argument("--action_nums", type=int,default=7)
 args, opts = parser.parse_known_args()
 
 from SimEnv4 import SimEnv
@@ -85,9 +153,38 @@ env.action_space
     "grasp": Box(0, 1,   dtype=np.int32),
 }
 ```
-## Joints range
+## Joints
+
+### Joints Information
+
+| JointName | Name                | PositiveDirection |
+| --------- | ------------------- | ----------------- |
+| 0         | Knee_X_Anchorn      | forward           |
+| 1         | Back_Z_Anchorn      | left              |
+| 2         | Back_X_Anchorn      | forward           |
+| 3         | Back_Y_Anchorn      | right             |
+| 4         | Neck_Z_Anchorn      | left              |
+| 5         | Neck_X_Anchorn      | down              |
+| 6         | Head_Y_Anchorn      | right             |
+| 7         | LShlouder_X_Anchorn | back              |
+| 8         | LShlouder_Y_Anchorn | out               |
+| 9         | LElbow_Z_Anchorn    | out               |
+| 10        | LElbow_X_Anchorn    | back              |
+| 11        | LWrist_Z_Anchorn    | out               |
+| 12        | LWrist_X_Anchorn    | back              |
+| 13        | LWrist_Y_Anchorn    | out               |
+| 14        | RShlouder_X_Anchorn | back              |
+| 15        | RShlouder_Y_Anchorn | in                |
+| 16        | RElbow_Z_Anchorn    | in                |
+| 17        | RElbow_X_Anchorn    | back              |
+| 18        | RWrist_Z_Anchorn    | in                |
+| 19        | RWrist_X_Anchorn    | back              |
+| 20        | RWrist_Y_Anchorn    | in                |
+
+### Joints Range
+
 ```bash
-joints_arrange = [
+joints_arrange/° = [
         [-36,30], 
         [-90,90], 
         [-45,45], 
@@ -116,7 +213,8 @@ joints_arrange = [
     ]
 ```
 ## API using
-Connect to the simulator
+**Connect to the simulator**
+
 ```bash
 channel = grpc.insecure_channel('127.0.0.1:30001')  # FIXME
 channel = grpc.insecure_channel(client,options=[
@@ -125,42 +223,367 @@ channel = grpc.insecure_channel(client,options=[
         ])
 stub=GrabSim_pb2_grpc.GrabSimStub(channel)
 ```
-Init the world
+**Init the world**
+
 ```bash
 initworld = stub.Init(GrabSim_pb2.Count(value = value)) # value present the number of scene 
 ```
-Reset the scene
+**Reset the scene**
+
 ```bash
 stub.Reset(GrabSim_pb2.ResetParams(sceneID=sceneID)) #sceneID start from 0
 ```
-Get observation of the scene and show env info
+**Get observation of the scene and show env info**
+
 ```bash
 scene = stub.Observe(GrabSim_pb2.SceneID(value=sceneID))
 print('------------------show_env_info----------------------')
 print(f"sceneID:{scene.sceneID}, location:{[scene.location.X, scene.location.Y]}, rotation:{scene.rotation}\n",
       f"joints number:{len(scene.joints)}\n")
 ```
-Get the images
+**Get the images**
+
 ```bash
 caremras=[GrabSim_pb2.CameraName.Head_Color,GrabSim_pb2.CameraName.Head_Depth]
 action = GrabSim_pb2.CameraList(sceneID=sceneID, cameras=caremras)
 images = stub.Capture(action).images
 ```
-Do action
+**Do action**
+
 ```bash
 stub.Do(GrabSim_pb2.Action(sceneID=sceneID, action = GrabSim_pb2.Action.ActionType.WalkTo,values = [x, y, Yaw, q, v])) # walk
 stub.Do(GrabSim_pb2.Action(sceneID=sceneID, action = GrabSim_pb2.Action.ActionType.RotateJoints,values = joints)) # changeJoints
 stub.Do(GrabSim_pb2.Action(sceneID=sceneID, action=GrabSim_pb2.Action.Grasp,values=[0])) # control robot hand to grasp, 0 is left hand, 1 is right hand
 stub.Do(GrabSim_pb2.Action(sceneID=sceneID, action=GrabSim_pb2.Action.Release,values=[0])) # release robot hand, 0 is left hand, 1 is right hand
 ```
-Make Objects
+**Make Objects**
+
 ```bash
 obj_list = [
-        GrabSim_pb2.ObjectList.Object(x=x, y=y, yaw=yaw, z=desk_h, type=obj_type),
+        GrabSim_pb2.ObjectList.Object(x=x, y=y, yaw=yaw, z=desk_h, type=obj_id),
     ]
 scene = stub.MakeObjects(GrabSim_pb2.ObjectList(objects=obj_list, sceneID=sceneID))
 ```
-Clean Objects
+**Clean Objects**
+
 ```bash
 stub.CleanObjects(GrabSim_pb2.SceneID(value=sceneID))
 ```
+
+## Appendix
+
+### API Details
+
+#### Communication Protocol
+
+- **Protocol**: gRPC
+- **Port**: 30001
+
+#### Data Types
+
+##### Count
+
+| Field | Type  | Value | Description               |
+| ----- | ----- | ----- | ------------------------- |
+| value | int32 | (0)   | Number of scenes in world |
+
+##### Nothing
+
+No content, used when interface does not need input or output values.
+
+##### SceneID
+
+| Field | Type  | Value | Description |
+| ----- | ----- | ----- | ----------- |
+| value | int32 | (0)   | Scene ID    |
+
+Meaning of scene ID:
+
+- 3 : Coffee, 
+- 4 : Restaurant, 
+- 5 : Nurse home
+
+##### World
+
+| Field  | Type       | Description                              |
+| ------ | ---------- | ---------------------------------------- |
+| scenes | list/Scene | All scenes in world                      |
+| error  | string     | Partial error information from execution |
+
+##### ResetParams 
+
+| Field  | Type  | Value      | Description                                |
+| ------ | ----- | ---------- | ------------------------------------------ |
+| scene  | int32 | (0)        | Target scene ID                            |
+| adjust | bool  | (False)    | Set to True for init params to take effect |
+| height | float | 78.5~111.5 | (90.4) Table height                        |
+| width  | float | 50~150     | (107.4) Table width                        |
+
+##### Object
+
+| Field    | Type     | Description     |
+| -------- | -------- | --------------- |
+| name     | string   | Object name     |
+| location | Location | Object position |
+| rotation | Rotation | Object rotation |
+
+##### Location 
+
+| Field | Type  | Description  |
+| ----- | ----- | ------------ |
+| X     | float | X coordinate |
+| Y     | float | Y coordinate |
+| Z     | float | Z coordinate |
+
+##### Rotation
+
+| Field | Type  | Description               |
+| ----- | ----- | ------------------------- |
+| angle | float | Rotation angle in degrees |
+
+##### MakeObjects
+
+| Field   | Type        | Value   | Description                                  |
+| ------- | ----------- | ------- | -------------------------------------------- |
+| scene   | int32       | (0)     | Target scene ID                              |
+| append  | bool        | (False) | Set to append objects or clear existing ones |
+| objects | list/Object |         | List of objects                              |
+
+##### ObjectList.Object
+
+| Field | Type  | Value | Description                          |
+| ----- | ----- | ----- | ------------------------------------ |
+| x, y  | float | (0)   | Object position, height at table top |
+| type  | int   |       | Object ID                            |
+
+##### RemoveObjects
+
+| Field     | Type       | Value | Description                       |
+| --------- | ---------- | ----- | --------------------------------- |
+| sceneID   | int32      | (0)   | Target scene ID                   |
+| objectIDs | list/int32 |       | Index of objects in Scene.Objects |
+
+##### Action
+
+| Field   | Type       | Value             | Description     |
+| ------- | ---------- | ----------------- | --------------- |
+| sceneID | int32      | (0)               | Target scene ID |
+| action  | enum       | Action.ActionType | (RotateJoints)  |
+| values  | list/float | ([0, ...])        |                 |
+
+Action types:
+
+- WalkTo: Adjust robot position, 3 params  
+- Grasp: Control grasping, left/right hand in values
+- Release: Control releasing, left/right hand in values
+- Move: Control joint angles, 21 params in values
+
+##### Joint
+
+| Field    | Type     | Description    |
+| -------- | -------- | -------------- |
+| name     | string   | Joint name     |
+| location | Location | Joint position |
+| rotation | Rotation | Joint rotation |
+
+##### Scene
+
+| Field     | Type              | Description                                                  |
+| --------- | ----------------- | ------------------------------------------------------------ |
+| sceneID   | int32             | Scene ID                                                     |
+| location  | Location          | Robot coordinates (center of workspace, Scene coordinate system) |
+| rotation  | Rotation          | Robot rotation angles                                        |
+| joints    | list/Scene.Joint  | Pose information for robot joints                            |
+| fingers   | list/Scene.Finger | Pose information for robot finger joints                     |
+| objects   | list/Scene.Object | Position and info of all objects in scene. First object is table, last few are hands with no position info |
+| timestamp | int64             | Nanoseconds since 1970/1/1                                   |
+| error     | string            | Partial error information from execution                     |
+
+##### Scene.Joint
+
+| Field    | Type     | Description    |
+| -------- | -------- | -------------- |
+| name     | string   | Joint name     |
+| location | Location | Joint position |
+| angle    | float    | Joint angle    |
+
+##### Scene.Finger
+
+| Field    | Type          | Description                          |
+| -------- | ------------- | ------------------------------------ |
+| name     | string        | Finger name                          |
+| location | list/Location | Position of each joint of the finger |
+| angle    | float         | Joint angle                          |
+
+##### Scene.Object
+
+| Field    | Type                     | Description                       |
+| -------- | ------------------------ | --------------------------------- |
+| name     | string                   | Object name                       |
+| location | Location                 | Object position                   |
+| rotation | Rotation                 | Object rotation angle (-180, 180) |
+| boxes    | list/Object.Box.Diagonal | Bounding boxes of object          |
+
+##### Pose
+
+| Field     | Type        | Description              |
+| --------- | ----------- | ------------------------ |
+| timestamp | int64       | Timestamp in nanoseconds |
+| joints    | list[Joint] | Robot joint poses        |
+
+##### MakeObjects
+
+| Field   | Type        | Value   | Description                                  |
+| ------- | ----------- | ------- | -------------------------------------------- |
+| scene   | int32       | (0)     | Target scene ID                              |
+| append  | bool        | (False) | Set to append objects or clear existing ones |
+| objects | list/Object |         | List of objects                              |
+
+##### ObjectList.Object
+
+| Field | Type  | Value | Description                          |
+| ----- | ----- | ----- | ------------------------------------ |
+| x, y  | float | (0)   | Object position, height at table top |
+| type  | int   |       | Object ID                            |
+
+##### RemoveObjects
+
+| Field     | Type       | Value | Description                       |
+| --------- | ---------- | ----- | --------------------------------- |
+| sceneID   | int32      | (0)   | Target scene ID                   |
+| objectIDs | list/int32 |       | Index of objects in Scene.Objects |
+
+##### Move
+
+| Field    | Type  | Description                                            |
+| -------- | ----- | ------------------------------------------------------ |
+| x        | float | Robot x coordinate                                     |
+| y        | float | Robot y coordinate                                     |
+| angle    | float | Robot current angle                                    |
+| speed    | float | Robot moving speed in facing direction, cm/s           |
+| rotating | float | Robot rotation speed, degrees/s, positive is clockwise |
+
+##### CameraList
+
+| Field   | Type      | Description     |
+| ------- | --------- | --------------- |
+| sceneID | int32     | Target scene ID |
+| cameras | list/enum | CameraName      |
+
+CameraName:
+
+- Head_Color: Head RGB camera
+- Head_Depth: Head depth camera  
+- Head_Segment: Head Segment camera  
+- Chest_Color: Chest RGB camera
+- Waist_Color: Waist RGB camera
+- Waist_Depth: Waist depth camera
+
+##### CameraData
+
+| Field     | Type                  | Description                |
+| --------- | --------------------- | -------------------------- |
+| images    | list/CameraData.Image | Image data                 |
+| timestamp | int64                 | Nanoseconds since 1970/1/1 |
+
+##### CameraData.Image
+
+| Field      | Type                        | Description                       |
+| ---------- | --------------------------- | --------------------------------- |
+| name       | string                      | Camera name                       |
+| data       | bytes                       | Byte array                        |
+| dtype      | string                      | Data format (uint8, float16, etc) |
+| location   | Location                    | Camera position                   |
+| rotation   | Rotation                    | Camera rotation angles            |
+| width      | int                         | Image width                       |
+| height     | int                         | Image height                      |
+| channels   | int                         | Number of channels                |
+| parameters | CamaraData.Image.Parameters | Camera intrinsics                 |
+
+##### CameraData.Image.Parameters
+
+| Field  | Type        | Description                                                  |
+| ------ | ----------- | ------------------------------------------------------------ |
+| fx     | float       |                                                              |
+| fy     | float       |                                                              |
+| cx     | float       |                                                              |
+| cy     | float       |                                                              |
+| matrix | array/float | Transform matrix from camera to robot coordinates (4x4, flattened) |
+
+### List of objects could be generated
+
+| ID   | Name                 |
+| ---- | -------------------- |
+| 0    | Mug                  |
+| 1    | Banana               |
+| 2    | Toothpaste           |
+| 3    | Bread                |
+| 4    | Softdrink            |
+| 5    | Yogurt               |
+| 6    | ADMilk               |
+| 7    | VacuumCup            |
+| 8    | Bernachon            |
+| 9    | BottledDrink         |
+| 10   | PencilVase           |
+| 11   | Teacup               |
+| 12   | Caddy                |
+| 13   | Dictionary           |
+| 14   | Cake                 |
+| 15   | Date                 |
+| 16   | Stapler              |
+| 17   | LunchBox             |
+| 18   | Bracelet             |
+| 19   | MilkDrink            |
+| 20   | CocountWater         |
+| 21   | Walnut               |
+| 22   | HamSausage           |
+| 23   | GlueStick            |
+| 24   | AdhensiveTape        |
+| 25   | Calculator           |
+| 26   | Chess                |
+| 27   | Orange               |
+| 28   | Glass                |
+| 29   | Washbowl             |
+| 30   | Durian               |
+| 31   | Gum                  |
+| 32   | Towl                 |
+| 33   | OrangeJuice          |
+| 34   | Cardcase             |
+| 35   | RubikCube            |
+| 36   | StickyNotes          |
+| 37   | NFCJuice             |
+| 38   | SpringWater          |
+| 39   | Apple                |
+| 40   | Coffee               |
+| 41   | Gauze                |
+| 42   | Mangosteen           |
+| 43   | SesameSeedCake       |
+| 44   | Glove                |
+| 45   | Mouse                |
+| 46   | Kettle               |
+| 47   | Atomize              |
+| 48   | Chips                |
+| 49   | SpongeGourd          |
+| 50   | Garlic               |
+| 51   | Potato               |
+| 52   | Tray                 |
+| 53   | Hemomanometer        |
+| 54   | TennisBall           |
+| 55   | ToyDog               |
+| 56   | ToyBear              |
+| 57   | TeaTray              |
+| 58   | Sock                 |
+| 59   | Scarf                |
+| 60   | ToiletPaper          |
+| 61   | Milk                 |
+| 62   | Soap                 |
+| 63   | Novel                |
+| 64   | Watermelon           |
+| 65   | Tomato               |
+| 66   | CleansingFoam        |
+| 67   | CocountMilk          |
+| 68   | SugarlessGum         |
+| 69   | MedicalAdhensiveTape |
+| 70   | SourMilkDrink        |
+| 71   | PaperCup             |
+| 72   | Tissue               |
