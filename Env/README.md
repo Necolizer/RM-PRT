@@ -1,3 +1,5 @@
+# Simulator
+
 - [Simulator](#simulator)
   - [Scene](#scene)
   - [Getting Started](#getting-started)
@@ -15,10 +17,6 @@
       - [Communication Protocol](#communication-protocol)
       - [Data Types](#data-types)
     - [List of objects could be generated](#list-of-objects-could-be-generated)
-
-
-# Simulator
-
 ## Scene
 <div align=center>
 <img src="../imgs/HighresScreenshot00007.png" width="300"> <img src="../imgs/HighresScreenshot00008.png" width="300"> <img src="https://github.com/Necolizer/RM-PRT/blob/gh-pages/docs/static/images/render/3.jpg" width="300">
