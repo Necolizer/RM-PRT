@@ -298,234 +298,234 @@ stub.CleanObjects(GrabSim_pb2.SceneID(value=sceneID))
 
 #### Data Types
 
-**Count**
+- **Count**
 
-| Field | Type  | Value | Description               |
-| ----- | ----- | ----- | ------------------------- |
-| value | int32 | (0)   | Number of scenes in world |
+  | Field | Type  | Value | Description               |
+  | ----- | ----- | ----- | ------------------------- |
+  | value | int32 | (0)   | Number of scenes in world |
 
-**Nothing**
+- **Nothing**
 
-No content, used when interface does not need input or output values.
+  No content, used when interface does not need input or output values.
 
-**SceneID**
+- **SceneID**
 
-| Field | Type  | Value | Description |
-| ----- | ----- | ----- | ----------- |
-| value | int32 | (0)   | Scene ID    |
+  | Field | Type  | Value | Description |
+  | ----- | ----- | ----- | ----------- |
+  | value | int32 | (0)   | Scene ID    |
 
-Meaning of scene ID:
+  Meaning of scene ID:
+  
+  - 3 : Coffee, 
+  - 4 : Restaurant, 
+  - 5 : Nurse home
 
-- 3 : Coffee, 
-- 4 : Restaurant, 
-- 5 : Nurse home
+- **World**
 
-**World**
+  | Field  | Type       | Description                              |
+  | ------ | ---------- | ---------------------------------------- |
+  | scenes | list/Scene | All scenes in world                      |
+  | error  | string     | Partial error information from execution |
 
-| Field  | Type       | Description                              |
-| ------ | ---------- | ---------------------------------------- |
-| scenes | list/Scene | All scenes in world                      |
-| error  | string     | Partial error information from execution |
+- **ResetParams** 
 
-**ResetParams** 
+  | Field  | Type  | Value      | Description                                |
+  | ------ | ----- | ---------- | ------------------------------------------ |
+  | scene  | int32 | (0)        | Target scene ID                            |
+  | adjust | bool  | (False)    | Set to True for init params to take effect |
+  | height | float | 78.5~111.5 | (90.4) Table height                        |
+  | width  | float | 50~150     | (107.4) Table width                        |
 
-| Field  | Type  | Value      | Description                                |
-| ------ | ----- | ---------- | ------------------------------------------ |
-| scene  | int32 | (0)        | Target scene ID                            |
-| adjust | bool  | (False)    | Set to True for init params to take effect |
-| height | float | 78.5~111.5 | (90.4) Table height                        |
-| width  | float | 50~150     | (107.4) Table width                        |
+- **Object**
 
-**Object**
+  | Field    | Type     | Description     |
+  | -------- | -------- | --------------- |
+  | name     | string   | Object name     |
+  | location | Location | Object position |
+  | rotation | Rotation | Object rotation |
 
-| Field    | Type     | Description     |
-| -------- | -------- | --------------- |
-| name     | string   | Object name     |
-| location | Location | Object position |
-| rotation | Rotation | Object rotation |
+- **Location** 
 
-**Location** 
+  | Field | Type  | Description  |
+  | ----- | ----- | ------------ |
+  | X     | float | X coordinate |
+  | Y     | float | Y coordinate |
+  | Z     | float | Z coordinate |
 
-| Field | Type  | Description  |
-| ----- | ----- | ------------ |
-| X     | float | X coordinate |
-| Y     | float | Y coordinate |
-| Z     | float | Z coordinate |
+- **Rotation**
 
-**Rotation**
+  | Field | Type  | Description               |
+  | ----- | ----- | ------------------------- |
+  | angle | float | Rotation angle in degrees |
 
-| Field | Type  | Description               |
-| ----- | ----- | ------------------------- |
-| angle | float | Rotation angle in degrees |
+- **MakeObjects**
 
-**MakeObjects**
+  | Field   | Type        | Value   | Description                                  |
+  | ------- | ----------- | ------- | -------------------------------------------- |
+  | scene   | int32       | (0)     | Target scene ID                              |
+  | append  | bool        | (False) | Set to append objects or clear existing ones |
+  | objects | list/Object |         | List of objects                              |
 
-| Field   | Type        | Value   | Description                                  |
-| ------- | ----------- | ------- | -------------------------------------------- |
-| scene   | int32       | (0)     | Target scene ID                              |
-| append  | bool        | (False) | Set to append objects or clear existing ones |
-| objects | list/Object |         | List of objects                              |
+- **ObjectList.Object**
 
-**ObjectList.Object**
+  | Field | Type  | Value | Description                          |
+  | ----- | ----- | ----- | ------------------------------------ |
+  | x, y  | float | (0)   | Object position, height at table top |
+  | type  | int   |       | Object ID                            |
 
-| Field | Type  | Value | Description                          |
-| ----- | ----- | ----- | ------------------------------------ |
-| x, y  | float | (0)   | Object position, height at table top |
-| type  | int   |       | Object ID                            |
+- **RemoveObjects**
 
-**RemoveObjects**
+  | Field     | Type       | Value | Description                       |
+  | --------- | ---------- | ----- | --------------------------------- |
+  | sceneID   | int32      | (0)   | Target scene ID                   |
+  | objectIDs | list/int32 |       | Index of objects in Scene.Objects |
 
-| Field     | Type       | Value | Description                       |
-| --------- | ---------- | ----- | --------------------------------- |
-| sceneID   | int32      | (0)   | Target scene ID                   |
-| objectIDs | list/int32 |       | Index of objects in Scene.Objects |
+- **Action**
 
-**Action**
+  | Field   | Type       | Value             | Description     |
+  | ------- | ---------- | ----------------- | --------------- |
+  | sceneID | int32      | (0)               | Target scene ID |
+  | action  | enum       | Action.ActionType | (RotateJoints)  |
+  | values  | list/float | ([0, ...])        |                 |
 
-| Field   | Type       | Value             | Description     |
-| ------- | ---------- | ----------------- | --------------- |
-| sceneID | int32      | (0)               | Target scene ID |
-| action  | enum       | Action.ActionType | (RotateJoints)  |
-| values  | list/float | ([0, ...])        |                 |
+  Action types:
+  
+  - WalkTo: Adjust robot position, 3 params  
+  - Grasp: Control grasping, left/right hand in values
+  - Release: Control releasing, left/right hand in values
+  - Move: Control joint angles, 21 params in values
 
-Action types:
+- **Joint**
+  
+  | Field    | Type     | Description    |
+  | -------- | -------- | -------------- |
+  | name     | string   | Joint name     |
+  | location | Location | Joint position |
+  | rotation | Rotation | Joint rotation |
 
-- WalkTo: Adjust robot position, 3 params  
-- Grasp: Control grasping, left/right hand in values
-- Release: Control releasing, left/right hand in values
-- Move: Control joint angles, 21 params in values
+- **Scene**
 
-**Joint**
+  | Field     | Type              | Description                                                  |
+  | --------- | ----------------- | ------------------------------------------------------------ |
+  | sceneID   | int32             | Scene ID                                                     |
+  | location  | Location          | Robot coordinates (center of workspace, Scene coordinate system) |
+  | rotation  | Rotation          | Robot rotation angles                                        |
+  | joints    | list/Scene.Joint  | Pose information for robot joints                            |
+  | fingers   | list/Scene.Finger | Pose information for robot finger joints                     |
+  | objects   | list/Scene.Object | Position and info of all objects in scene. First object is table, last few are hands with no position info |
+  | timestamp | int64             | Nanoseconds since 1970/1/1                                   |
+  | error     | string            | Partial error information from execution                     |
 
-| Field    | Type     | Description    |
-| -------- | -------- | -------------- |
-| name     | string   | Joint name     |
-| location | Location | Joint position |
-| rotation | Rotation | Joint rotation |
+- **Scene.Joint**
 
-**Scene**
+  | Field    | Type     | Description    |
+  | -------- | -------- | -------------- |
+  | name     | string   | Joint name     |
+  | location | Location | Joint position |
+  | angle    | float    | Joint angle    |
 
-| Field     | Type              | Description                                                  |
-| --------- | ----------------- | ------------------------------------------------------------ |
-| sceneID   | int32             | Scene ID                                                     |
-| location  | Location          | Robot coordinates (center of workspace, Scene coordinate system) |
-| rotation  | Rotation          | Robot rotation angles                                        |
-| joints    | list/Scene.Joint  | Pose information for robot joints                            |
-| fingers   | list/Scene.Finger | Pose information for robot finger joints                     |
-| objects   | list/Scene.Object | Position and info of all objects in scene. First object is table, last few are hands with no position info |
-| timestamp | int64             | Nanoseconds since 1970/1/1                                   |
-| error     | string            | Partial error information from execution                     |
+- **Scene.Finger**
 
-**Scene.Joint**
+  | Field    | Type          | Description                          |
+  | -------- | ------------- | ------------------------------------ |
+  | name     | string        | Finger name                          |
+  | location | list/Location | Position of each joint of the finger |
+  | angle    | float         | Joint angle                          |
 
-| Field    | Type     | Description    |
-| -------- | -------- | -------------- |
-| name     | string   | Joint name     |
-| location | Location | Joint position |
-| angle    | float    | Joint angle    |
+- **Scene.Object**
 
-**Scene.Finger**
+  | Field    | Type                     | Description                       |
+  | -------- | ------------------------ | --------------------------------- |
+  | name     | string                   | Object name                       |
+  | location | Location                 | Object position                   |
+  | rotation | Rotation                 | Object rotation angle (-180, 180) |
+  | boxes    | list/Object.Box.Diagonal | Bounding boxes of object          |
 
-| Field    | Type          | Description                          |
-| -------- | ------------- | ------------------------------------ |
-| name     | string        | Finger name                          |
-| location | list/Location | Position of each joint of the finger |
-| angle    | float         | Joint angle                          |
+- **Pose**
 
-**Scene.Object**
+  | Field     | Type        | Description              |
+  | --------- | ----------- | ------------------------ |
+  | timestamp | int64       | Timestamp in nanoseconds |
+  | joints    | list[Joint] | Robot joint poses        |
 
-| Field    | Type                     | Description                       |
-| -------- | ------------------------ | --------------------------------- |
-| name     | string                   | Object name                       |
-| location | Location                 | Object position                   |
-| rotation | Rotation                 | Object rotation angle (-180, 180) |
-| boxes    | list/Object.Box.Diagonal | Bounding boxes of object          |
+- **MakeObjects**
 
-**Pose**
+  | Field   | Type        | Value   | Description                                  |
+  | ------- | ----------- | ------- | -------------------------------------------- |
+  | scene   | int32       | (0)     | Target scene ID                              |
+  | append  | bool        | (False) | Set to append objects or clear existing ones |
+  | objects | list/Object |         | List of objects                              |
 
-| Field     | Type        | Description              |
-| --------- | ----------- | ------------------------ |
-| timestamp | int64       | Timestamp in nanoseconds |
-| joints    | list[Joint] | Robot joint poses        |
+- **ObjectList.Object**
 
-**MakeObjects**
+  | Field | Type  | Value | Description                          |
+  | ----- | ----- | ----- | ------------------------------------ |
+  | x, y  | float | (0)   | Object position, height at table top |
+  | type  | int   |       | Object ID                            |
 
-| Field   | Type        | Value   | Description                                  |
-| ------- | ----------- | ------- | -------------------------------------------- |
-| scene   | int32       | (0)     | Target scene ID                              |
-| append  | bool        | (False) | Set to append objects or clear existing ones |
-| objects | list/Object |         | List of objects                              |
+- **RemoveObjects**
 
-**ObjectList.Object**
+  | Field     | Type       | Value | Description                       |
+  | --------- | ---------- | ----- | --------------------------------- |
+  | sceneID   | int32      | (0)   | Target scene ID                   |
+  | objectIDs | list/int32 |       | Index of objects in Scene.Objects |
 
-| Field | Type  | Value | Description                          |
-| ----- | ----- | ----- | ------------------------------------ |
-| x, y  | float | (0)   | Object position, height at table top |
-| type  | int   |       | Object ID                            |
+- **Move**
 
-**RemoveObjects**
+  | Field    | Type  | Description                                            |
+  | -------- | ----- | ------------------------------------------------------ |
+  | x        | float | Robot x coordinate                                     |
+  | y        | float | Robot y coordinate                                     |
+  | angle    | float | Robot current angle                                    |
+  | speed    | float | Robot moving speed in facing direction, cm/s           |
+  | rotating | float | Robot rotation speed, degrees/s, positive is clockwise |
 
-| Field     | Type       | Value | Description                       |
-| --------- | ---------- | ----- | --------------------------------- |
-| sceneID   | int32      | (0)   | Target scene ID                   |
-| objectIDs | list/int32 |       | Index of objects in Scene.Objects |
+- **CameraList**
 
-**Move**
+  | Field   | Type      | Description     |
+  | ------- | --------- | --------------- |
+  | sceneID | int32     | Target scene ID |
+  | cameras | list/enum | CameraName      |
 
-| Field    | Type  | Description                                            |
-| -------- | ----- | ------------------------------------------------------ |
-| x        | float | Robot x coordinate                                     |
-| y        | float | Robot y coordinate                                     |
-| angle    | float | Robot current angle                                    |
-| speed    | float | Robot moving speed in facing direction, cm/s           |
-| rotating | float | Robot rotation speed, degrees/s, positive is clockwise |
+  CameraName:
+  
+  - Head_Color: Head RGB camera
+  - Head_Depth: Head depth camera  
+  - Head_Segment: Head Segment camera  
+  - Chest_Color: Chest RGB camera
+  - Waist_Color: Waist RGB camera
+  - Waist_Depth: Waist depth camera
 
-**CameraList**
+- **CameraData**
 
-| Field   | Type      | Description     |
-| ------- | --------- | --------------- |
-| sceneID | int32     | Target scene ID |
-| cameras | list/enum | CameraName      |
+  | Field     | Type                  | Description                |
+  | --------- | --------------------- | -------------------------- |
+  | images    | list/CameraData.Image | Image data                 |
+  | timestamp | int64                 | Nanoseconds since 1970/1/1 |
 
-CameraName:
+- **CameraData.Image**
 
-- Head_Color: Head RGB camera
-- Head_Depth: Head depth camera  
-- Head_Segment: Head Segment camera  
-- Chest_Color: Chest RGB camera
-- Waist_Color: Waist RGB camera
-- Waist_Depth: Waist depth camera
+  | Field      | Type                        | Description                       |
+  | ---------- | --------------------------- | --------------------------------- |
+  | name       | string                      | Camera name                       |
+  | data       | bytes                       | Byte array                        |
+  | dtype      | string                      | Data format (uint8, float16, etc) |
+  | location   | Location                    | Camera position                   |
+  | rotation   | Rotation                    | Camera rotation angles            |
+  | width      | int                         | Image width                       |
+  | height     | int                         | Image height                      |
+  | channels   | int                         | Number of channels                |
+  | parameters | CamaraData.Image.Parameters | Camera intrinsics                 |
 
-**CameraData**
+- **CameraData.Image.Parameters**
 
-| Field     | Type                  | Description                |
-| --------- | --------------------- | -------------------------- |
-| images    | list/CameraData.Image | Image data                 |
-| timestamp | int64                 | Nanoseconds since 1970/1/1 |
-
-**CameraData.Image**
-
-| Field      | Type                        | Description                       |
-| ---------- | --------------------------- | --------------------------------- |
-| name       | string                      | Camera name                       |
-| data       | bytes                       | Byte array                        |
-| dtype      | string                      | Data format (uint8, float16, etc) |
-| location   | Location                    | Camera position                   |
-| rotation   | Rotation                    | Camera rotation angles            |
-| width      | int                         | Image width                       |
-| height     | int                         | Image height                      |
-| channels   | int                         | Number of channels                |
-| parameters | CamaraData.Image.Parameters | Camera intrinsics                 |
-
-**CameraData.Image.Parameters**
-
-| Field  | Type        | Description                                                  |
-| ------ | ----------- | ------------------------------------------------------------ |
-| fx     | float       |                                                              |
-| fy     | float       |                                                              |
-| cx     | float       |                                                              |
-| cy     | float       |                                                              |
-| matrix | array/float | Transform matrix from camera to robot coordinates (4x4, flattened) |
+  | Field  | Type        | Description                                                  |
+  | ------ | ----------- | ------------------------------------------------------------ |
+  | fx     | float       |                                                              |
+  | fy     | float       |                                                              |
+  | cx     | float       |                                                              |
+  | cy     | float       |                                                              |
+  | matrix | array/float | Transform matrix from camera to robot coordinates (4x4, flattened) |
 
 ### List of objects could be generated
 
