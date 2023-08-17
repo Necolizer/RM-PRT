@@ -1,4 +1,9 @@
+[TOC]
+
+
+
 # Simulator
+
 # Scene
 <div align=center>
 <img src="../imgs/HighresScreenshot00007.png" width="300"> <img src="../imgs/HighresScreenshot00008.png" width="300"> <img src="https://github.com/Necolizer/RM-PRT/blob/gh-pages/docs/static/images/render/3.jpg" width="300">
@@ -21,13 +26,13 @@ Examples of robotic manipulation in our RM-PRT simulator.
 
 run the appropriate executable file in windows or Linux.
 
-#### Devices without graphical interfaces
+#### Devices without graphical interfaces[^1]
 
-#### Verifying GitHub Access
+**Verifying GitHub Access**
 
 Verify that you can access the Unreal Engine source code repository on GitHub: https://github.com/EpicGames/UnrealEngine. If you cannot access the repository then you will need to [link your GitHub account with your Epic Games Account](https://www.unrealengine.com/en-US/ue-on-github).
 
-#### Authenticating with GitHub Container Registry
+**Authenticating with GitHub Container Registry**
 
 To download container images from GitHub Container Registry using Docker you will need to authenticate using a personal access token. If you do not already have a personal access token with the `read:packages` scope then you will need to [follow the steps to create one](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
@@ -41,7 +46,7 @@ echo ACCESS_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
 
 If the authentication process was successful then you should see the message *"Login Succeeded"* displayed.
 
-#### Pulling Prebuilt Container Images
+**Pulling Prebuilt Container Images**
 
 The official prebuilt container images for Unreal Engine are stored as image tags in the [ghcr.io/epicgames/unreal-engine](https://ghcr.io/epicgames/unreal-engine) repository. To download the Linux development image for Unreal Engine 4.27, use the `docker pull` command shown below:
 
@@ -51,7 +56,7 @@ docker pull ghcr.io/epicgames/unreal-engine:dev-4.27
 
 This will download a container image that encapsulates the files for Unreal Editor and build tools, which are quite large. Depending on the speed of your internet connection, the download process may take some time. When the download is complete, you should see the message *"Status: Downloaded newer image for ghcr.io/epicgames/unreal-engine:dev-4.27"* displayed.
 
-#### Building the Container
+**Building the Container**
 
 Use the following docker file code to create a new one to run.
 
@@ -275,17 +280,17 @@ stub.CleanObjects(GrabSim_pb2.SceneID(value=sceneID))
 
 #### Data Types
 
-##### Count
+**Count**
 
 | Field | Type  | Value | Description               |
 | ----- | ----- | ----- | ------------------------- |
 | value | int32 | (0)   | Number of scenes in world |
 
-##### Nothing
+**Nothing**
 
 No content, used when interface does not need input or output values.
 
-##### SceneID
+**SceneID**
 
 | Field | Type  | Value | Description |
 | ----- | ----- | ----- | ----------- |
@@ -297,14 +302,14 @@ Meaning of scene ID:
 - 4 : Restaurant, 
 - 5 : Nurse home
 
-##### World
+**World**
 
 | Field  | Type       | Description                              |
 | ------ | ---------- | ---------------------------------------- |
 | scenes | list/Scene | All scenes in world                      |
 | error  | string     | Partial error information from execution |
 
-##### ResetParams 
+**ResetParams** 
 
 | Field  | Type  | Value      | Description                                |
 | ------ | ----- | ---------- | ------------------------------------------ |
@@ -313,7 +318,7 @@ Meaning of scene ID:
 | height | float | 78.5~111.5 | (90.4) Table height                        |
 | width  | float | 50~150     | (107.4) Table width                        |
 
-##### Object
+**Object**
 
 | Field    | Type     | Description     |
 | -------- | -------- | --------------- |
@@ -321,7 +326,7 @@ Meaning of scene ID:
 | location | Location | Object position |
 | rotation | Rotation | Object rotation |
 
-##### Location 
+**Location** 
 
 | Field | Type  | Description  |
 | ----- | ----- | ------------ |
@@ -329,13 +334,13 @@ Meaning of scene ID:
 | Y     | float | Y coordinate |
 | Z     | float | Z coordinate |
 
-##### Rotation
+**Rotation**
 
 | Field | Type  | Description               |
 | ----- | ----- | ------------------------- |
 | angle | float | Rotation angle in degrees |
 
-##### MakeObjects
+**MakeObjects**
 
 | Field   | Type        | Value   | Description                                  |
 | ------- | ----------- | ------- | -------------------------------------------- |
@@ -343,21 +348,21 @@ Meaning of scene ID:
 | append  | bool        | (False) | Set to append objects or clear existing ones |
 | objects | list/Object |         | List of objects                              |
 
-##### ObjectList.Object
+**ObjectList.Object**
 
 | Field | Type  | Value | Description                          |
 | ----- | ----- | ----- | ------------------------------------ |
 | x, y  | float | (0)   | Object position, height at table top |
 | type  | int   |       | Object ID                            |
 
-##### RemoveObjects
+**RemoveObjects**
 
 | Field     | Type       | Value | Description                       |
 | --------- | ---------- | ----- | --------------------------------- |
 | sceneID   | int32      | (0)   | Target scene ID                   |
 | objectIDs | list/int32 |       | Index of objects in Scene.Objects |
 
-##### Action
+**Action**
 
 | Field   | Type       | Value             | Description     |
 | ------- | ---------- | ----------------- | --------------- |
@@ -372,7 +377,7 @@ Action types:
 - Release: Control releasing, left/right hand in values
 - Move: Control joint angles, 21 params in values
 
-##### Joint
+**Joint**
 
 | Field    | Type     | Description    |
 | -------- | -------- | -------------- |
@@ -380,7 +385,7 @@ Action types:
 | location | Location | Joint position |
 | rotation | Rotation | Joint rotation |
 
-##### Scene
+**Scene**
 
 | Field     | Type              | Description                                                  |
 | --------- | ----------------- | ------------------------------------------------------------ |
@@ -393,7 +398,7 @@ Action types:
 | timestamp | int64             | Nanoseconds since 1970/1/1                                   |
 | error     | string            | Partial error information from execution                     |
 
-##### Scene.Joint
+**Scene.Joint**
 
 | Field    | Type     | Description    |
 | -------- | -------- | -------------- |
@@ -401,7 +406,7 @@ Action types:
 | location | Location | Joint position |
 | angle    | float    | Joint angle    |
 
-##### Scene.Finger
+**Scene.Finger**
 
 | Field    | Type          | Description                          |
 | -------- | ------------- | ------------------------------------ |
@@ -409,7 +414,7 @@ Action types:
 | location | list/Location | Position of each joint of the finger |
 | angle    | float         | Joint angle                          |
 
-##### Scene.Object
+**Scene.Object**
 
 | Field    | Type                     | Description                       |
 | -------- | ------------------------ | --------------------------------- |
@@ -418,14 +423,14 @@ Action types:
 | rotation | Rotation                 | Object rotation angle (-180, 180) |
 | boxes    | list/Object.Box.Diagonal | Bounding boxes of object          |
 
-##### Pose
+**Pose**
 
 | Field     | Type        | Description              |
 | --------- | ----------- | ------------------------ |
 | timestamp | int64       | Timestamp in nanoseconds |
 | joints    | list[Joint] | Robot joint poses        |
 
-##### MakeObjects
+**MakeObjects**
 
 | Field   | Type        | Value   | Description                                  |
 | ------- | ----------- | ------- | -------------------------------------------- |
@@ -433,21 +438,21 @@ Action types:
 | append  | bool        | (False) | Set to append objects or clear existing ones |
 | objects | list/Object |         | List of objects                              |
 
-##### ObjectList.Object
+**ObjectList.Object**
 
 | Field | Type  | Value | Description                          |
 | ----- | ----- | ----- | ------------------------------------ |
 | x, y  | float | (0)   | Object position, height at table top |
 | type  | int   |       | Object ID                            |
 
-##### RemoveObjects
+**RemoveObjects**
 
 | Field     | Type       | Value | Description                       |
 | --------- | ---------- | ----- | --------------------------------- |
 | sceneID   | int32      | (0)   | Target scene ID                   |
 | objectIDs | list/int32 |       | Index of objects in Scene.Objects |
 
-##### Move
+**Move**
 
 | Field    | Type  | Description                                            |
 | -------- | ----- | ------------------------------------------------------ |
@@ -457,7 +462,7 @@ Action types:
 | speed    | float | Robot moving speed in facing direction, cm/s           |
 | rotating | float | Robot rotation speed, degrees/s, positive is clockwise |
 
-##### CameraList
+**CameraList**
 
 | Field   | Type      | Description     |
 | ------- | --------- | --------------- |
@@ -473,14 +478,14 @@ CameraName:
 - Waist_Color: Waist RGB camera
 - Waist_Depth: Waist depth camera
 
-##### CameraData
+**CameraData**
 
 | Field     | Type                  | Description                |
 | --------- | --------------------- | -------------------------- |
 | images    | list/CameraData.Image | Image data                 |
 | timestamp | int64                 | Nanoseconds since 1970/1/1 |
 
-##### CameraData.Image
+**CameraData.Image**
 
 | Field      | Type                        | Description                       |
 | ---------- | --------------------------- | --------------------------------- |
@@ -494,7 +499,7 @@ CameraName:
 | channels   | int                         | Number of channels                |
 | parameters | CamaraData.Image.Parameters | Camera intrinsics                 |
 
-##### CameraData.Image.Parameters
+**CameraData.Image.Parameters**
 
 | Field  | Type        | Description                                                  |
 | ------ | ----------- | ------------------------------------------------------------ |
@@ -505,6 +510,8 @@ CameraName:
 | matrix | array/float | Transform matrix from camera to robot coordinates (4x4, flattened) |
 
 ### List of objects could be generated
+
+![微信图片_20230605144626-removebg-preview](assets/objects3_19.png)
 
 | ID   | Name                 |
 | ---- | -------------------- |
