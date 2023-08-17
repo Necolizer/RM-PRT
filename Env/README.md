@@ -2,8 +2,6 @@
   - [Scene](#scene)
   - [Getting Started](#getting-started)
     - [Launch Simulator](#launch-simulator)
-      - [Devices with graphical interfaces](#devices-with-graphical-interfaces)
-      - [Devices without graphical interfaces^1](#devices-without-graphical-interfaces1)
     - [Installation](#installation)
     - [Quick Start](#quick-start)
   - [Tasks](#tasks)
@@ -38,14 +36,14 @@ Examples of robotic manipulation in our RM-PRT simulator.
 
 ## Getting Started
 ### Launch Simulator
-
-#### Devices with graphical interfaces
-
+<details>
+<summary> Devices with graphical interfaces </summary>
 run the appropriate executable file in windows or Linux.
+</details>
+<details>
+<summary> Devices without graphical interfaces </summary>
 
-#### Devices without graphical interfaces[^1]
-
-**Verifying GitHub Access**
+**Verifying GitHub Access[^1]**
 
 Verify that you can access the Unreal Engine source code repository on GitHub: https://github.com/EpicGames/UnrealEngine. If you cannot access the repository then you will need to [link your GitHub account with your Epic Games Account](https://www.unrealengine.com/en-US/ue-on-github).
 
@@ -103,7 +101,7 @@ nvidia-docker run -it -p 30001:30001 --name sim30001 name:latest
 ```
 
 [^1]: https://docs.unrealengine.com/5.0/en-US/quick-start-guide-for-using-container-images-in-unreal-engine/
-
+</details>
 
 
 ### Installation
