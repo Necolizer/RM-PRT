@@ -39,10 +39,9 @@ Examples of robotic manipulation in our RM-PRT simulator.
 run the appropriate executable file in Windows or Linux.
 </details>
 <details>
-<summary> ## Devices without graphical interfaces </summary>
+<summary> Devices without graphical interfaces </summary>
 
 - Verifying GitHub Access[^1]
-
 Verify that you can access the Unreal Engine source code repository on GitHub: https://github.com/EpicGames/UnrealEngine. If you cannot access the repository then you will need to [link your GitHub account with your Epic Games Account](https://www.unrealengine.com/en-US/ue-on-github).
 
 **Authenticating with GitHub Container Registry**
