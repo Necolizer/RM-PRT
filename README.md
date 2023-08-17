@@ -9,8 +9,8 @@
    
    - Built on UE5.
    - Supports [instruction tasks](https://github.com/Necolizer/RM-PRT/blob/main/Env/README.md#tasks) with 4 different difficulty levels.
-   - Support for grabbing tasks.
-   - Contains 782 object categories and 2023 entities.
+   - Skill Library: Grab.
+   - Scene: Restaurant, contains 132 object categories and 231 entities.
      
 </details>
 
