@@ -1,5 +1,5 @@
 - [Simulator](#simulator)
-  - [Sce ne](#scene)
+  - [Scene](#scene)
   - [Getting Started](#getting-started)
     - [Launch Simulator](#launch-simulator)
       - [Devices with graphical interfaces](#devices-with-graphical-interfaces)
