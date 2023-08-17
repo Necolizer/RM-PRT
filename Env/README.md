@@ -36,10 +36,10 @@ Examples of robotic manipulation in our RM-PRT simulator.
 ### Launch Simulator
 <details>
 <summary> Devices with graphical interfaces </summary>
-run the appropriate executable file in windows or Linux.
+run the appropriate executable file in Windows or Linux.
 </details>
 <details>
-<summary> Devices without graphical interfaces </summary>
+<summary> ## Devices without graphical interfaces </summary>
 
 - Verifying GitHub Access[^1]
 
