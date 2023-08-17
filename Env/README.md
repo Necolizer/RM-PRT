@@ -95,11 +95,7 @@ Here is a basic example of how to create an environment under our simulator.
 import argparse
 import gym
 from gym import spaces
-import numpy as np
 
-
-import time
-import random
 from google.protobuf import message
 import grpc
 import GrabSim_pb2_grpc
@@ -113,16 +109,14 @@ args, opts = parser.parse_known_args()
 from SimEnv4 import SimEnv
 client=args.host
 
-deterministic=True
 action_nums=args.action_nums
 bins = 32
-abs_distance=12
 level=1
 
 use_image = True
 max_steps = 160
 
-env=SimEnv(client,0,deterministic=deterministic,action_nums=action_nums,bins=bins,abs_distance=abs_distance,use_image=use_image,max_steps = max_steps,level=level)
+env=SimEnv(client,0,action_nums=action_nums,bins=bins,use_image=use_image,max_steps = max_steps,level=level)
 ```
 ## Tasks
 - Level 1: The scene contains only one object, and the robot receives explicit machine language commands consisting of a *verbs + nouns*, *e.g.*, to grasp the glass. 
