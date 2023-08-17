@@ -526,4 +526,4 @@ CameraName:
 
 ![微信图片_20230605144626-removebg-preview](assets/objects3_19.png)
 
-
+- The list of categories used in the paper is shown in [71_categories.txt](https://github.com/Necolizer/RM-PRT/blob/main/Env/71_categories.txt).
