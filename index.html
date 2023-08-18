@@ -149,6 +149,14 @@
       .slider_section img {
         width:100%;
       }
+      .small-image {
+        max-width: 75%; 
+        height: auto; 
+      }
+      .smaller-image {
+        max-width: 60%;
+        height: auto; 
+      }
       .biaoti{
         padding-top: 20px;
         text-align: center;
@@ -311,9 +319,12 @@
         <div class="carousel-inner">
 
           <div class="carousel-item active">
-            <div class="container ">
+            <div class="container">
+              
               <div class="row">
-                <img src="images/render/Simulator_.jpg" alt="">
+                <div style="text-align: center">
+                <img class="small-image" src="images/render/Simulator_.jpg" alt="">
+                </div>
               </div>
             </div>
           </div>
@@ -321,7 +332,9 @@
           <div class="carousel-item">
             <div class="container ">
               <div class="row">
-                <img src="images/render/1.jpg" alt="">
+                <div style="text-align: center">
+                <img class="small-image" src="images/render/1.jpg" alt="">
+                </div>
               </div>
             </div>
           </div>
@@ -329,7 +342,9 @@
           <div class="carousel-item">
             <div class="container ">
               <div class="row">
-                <img src="images/render/2.jpg" alt="">
+                <div style="text-align: center">
+                <img class="small-image" src="images/render/2.jpg" alt="">
+              </div>
               </div>
             </div>
           </div>
@@ -337,7 +352,9 @@
           <div class="carousel-item">
             <div class="container ">
               <div class="row">
-                <img src="images/render/3.jpg" alt="">
+                <div style="text-align: center">
+                <img class="small-image" src="images/render/3.jpg" alt="">
+              </div>
               </div>
             </div>
           </div>
@@ -345,7 +362,9 @@
           <div class="carousel-item">
             <div class="container ">
               <div class="row">
-                <img src="images/render/4.jpg" alt="">
+                <div style="text-align: center">
+                <img class="small-image" src="images/render/4.jpg" alt="">
+              </div>
               </div>
             </div>
           </div>
@@ -457,6 +476,27 @@
           <div class="col-md-6 ml-auto">
             <div class="detail-box pr-md-0">
               <p style="font-size: 24px;">
+                Level 1: <br>
+                  Grasp the chips.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4 px-0">
+            <div class="img-box">
+              <img src="images/render/level1.png" alt="">
+              </video> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="about_section"><br></section>
+    <section class="about_section">
+      <div class="container-fluid  ">
+        <div class="row">
+          <div class="col-md-6 ml-auto">
+            <div class="detail-box pr-md-0">
+              <p style="font-size: 24px;">
                 Level 2: <br>
                   Grasp a Bread.
               </p>
@@ -471,7 +511,8 @@
         </div>
       </div>
     </section>
-  
+    <section class="about_section"><br></section>
+    
     <section class="about_section">
       <div class="container-fluid  ">
         <div class="row">
@@ -493,7 +534,7 @@
         </div>
       </div>
     </section>
-
+    <section class="about_section"><br></section>
     <section class="about_section">
       <div class="container-fluid  ">
         <div class="row">
@@ -514,7 +555,10 @@
         </div>
       </div>
     </section>
-
+    <div>
+      <br>
+      <br>
+    </div>
     <div class="client_container ">
       <div id="carouselExample2Controls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
@@ -522,7 +566,7 @@
               <div class="detail-box">
                 <div style="text-align: center" class="img-box">
                   <!-- <img src="images/render/pipeline.png" alt=""> -->
-                  <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+                  <video class="smaller-image" poster="" id="steve" autoplay controls muted loop playsinline height="100%">
                     <source src="videos/1.mp4"
                             type="video/mp4">
                   </video> 
@@ -533,8 +577,8 @@
               <div class="box">
                 <div style="text-align: center" class="img-box">
                   <!-- <img src="images/render/multi_level_tasks.jpg" alt=""> -->
-                  <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
-                    <source src="videos/2.mp4"
+                  <video class="smaller-image" poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+                    <source src="videos/4.mp4"
                             type="video/mp4">
                   </video> 
                 </div>
