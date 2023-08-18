@@ -531,4 +531,4 @@ stub.CleanObjects(GrabSim_pb2.SceneID(value=sceneID))
 
 ![微信图片_20230605144626-removebg-preview](assets/objects3_19.png)
 
-- The list of objects in the restaurant scene is shown in [objs.txt](https://github.com/Necolizer/RM-PRT/blob/main/Env/total_objs.txt).
+- The list of objects in the restaurant scene is shown in [objs.txt](https://github.com/Necolizer/RM-PRT/blob/main/Env/objs.txt).
