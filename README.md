@@ -24,7 +24,8 @@
 
 ![Simulator](./imgs/Simulator.jpg)
 
-
+## Pipeline
+![pipeline](./imgs/pipeline.png)
 
 
 ## Environment
