@@ -49,6 +49,11 @@ python inference.py --host=localhost:30001 --action_nums=8
 
 ## Instructions
 We have released the instructions for the training set, see the [file](https://github.com/Necolizer/RM-PRT/tree/main/instructions) for more information.
+The instructions are stored in the csv file, and each line stores the id, scene information, target object, instruction content, level, and generation time of an instruction.
+This is an example
+| 04445 | SpringWater,17,53,CocountMilk,19,61,Novel,-5,40, | CocountMilk | Please grab the creamy and flavorful object  on the front-right side that can be used as a dairy-free alternative in  cooking and baking and is located next to natural sourced water, ideal for  drinking and hydration. | 4    | 2    |
+| ----- | ------------------------------------------------ | ----------- | ------------------------------------------------------------ | ---- | ---- |
+|       |                                                  |             |                                                              |      |      |
 
 ## Available Baselines
 - [BC-Z](https://github.com/Necolizer/RM-PRT/tree/main/bcz): Zero-Shot Task Generalization with Robotic Imitation Learning
