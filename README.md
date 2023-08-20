@@ -55,6 +55,25 @@ We have released the instructions for the training set, see the [file](https://g
 - [Gato](https://github.com/Necolizer/RM-PRT/tree/main/gato): A Generalist Agent
 - [RT-1](https://github.com/Necolizer/RM-PRT/tree/main/robotic_transformer_pytorch): Robotics Transformer for real-world control at scale
 - [RT-LP](https://github.com/Necolizer/RM-PRT/tree/main/RT-LP): Robotics Transformer with Language Parsing
+
+you can easily load the model, this is an example
+```
+from bcz.Extractor import CustomExtractor
+action_nums=8
+bins=256
+net_arch=[]
+policy_kwargs = dict(features_extractor_class=CustomExtractor,features_extractor_kwargs ={'action_nums':action_nums,'bins':bins}, net_arch=net_arch)
+
+num_envs = 1
+model = PPO("MultiInputPolicy", env, policy_kwargs=policy_kwargs, verbose=1,
+    n_steps=rollout_steps // num_envs, batch_size=batch_size,
+    n_epochs=10,
+    tensorboard_log=save_path,
+    gamma=gamma,
+    target_kl=target_kl,
+    learning_rate=learning_rate
+)
+```
 ## Citation
 ```
 @article{rmprt2023,
