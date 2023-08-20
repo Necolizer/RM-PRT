@@ -34,7 +34,7 @@ Examples of robotic manipulation in our RM-PRT simulator.
 
 ## Getting Started
 ### Download Simulator
-Download (the zip file)[https://drive.google.com/file/d/1bp6NflSx5qhBPl1gk7VLioXZLeA-HlXQ/view?usp=drive_link]
+Download [the zip file](https://drive.google.com/file/d/1bp6NflSx5qhBPl1gk7VLioXZLeA-HlXQ/view?usp=drive_link)
 ### Launch Simulator
 <details>
 <summary> Devices with graphical interfaces </summary>
