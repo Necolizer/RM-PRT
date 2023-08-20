@@ -49,10 +49,10 @@ python inference.py --host=localhost:30001 --action_nums=8
 
 
 ## Available Baselines
-- [BCZ](https://github.com/Necolizer/RM-PRT/tree/main/bcz)
-- [Gato](https://github.com/Necolizer/RM-PRT/tree/main/gato)
-- [RT-1](https://github.com/Necolizer/RM-PRT/tree/main/robotic_transformer_pytorch)
-- [RT-LP](https://github.com/Necolizer/RM-PRT/tree/main/RT-LP)
+- [BC-Z](https://github.com/Necolizer/RM-PRT/tree/main/bcz): Zero-Shot Task Generalization with Robotic Imitation Learning
+- [Gato](https://github.com/Necolizer/RM-PRT/tree/main/gato): A Generalist Agent
+- [RT-1](https://github.com/Necolizer/RM-PRT/tree/main/robotic_transformer_pytorch): Robotics Transformer for real-world control at scale
+- [RT-LP](https://github.com/Necolizer/RM-PRT/tree/main/RT-LP): Robotics Transformer with Language Parsing
 ## Citation
 ```
 @article{rmprt2023,
