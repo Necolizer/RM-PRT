@@ -47,6 +47,8 @@ Run the inference code.
 python inference.py --host=localhost:30001 --action_nums=8
 ```
 
+## Instructions
+We have released the instructions for the training set, see the [file](https://github.com/Necolizer/RM-PRT/tree/main/instructions) for more information.
 
 ## Available Baselines
 - [BC-Z](https://github.com/Necolizer/RM-PRT/tree/main/bcz): Zero-Shot Task Generalization with Robotic Imitation Learning
