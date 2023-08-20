@@ -46,10 +46,10 @@ Run the inference code.
 ```bash
 python inference.py --host=localhost:30001 --action_nums=8
 ```
--[BCZ](https://github.com/Necolizer/RM-PRT/edit/main/README.md)
--[Gato](https://github.com/Necolizer/RM-PRT/edit/main/README.md)
--[RT-1](https://github.com/Necolizer/RM-PRT/edit/main/README.md)
--[RT-LP](https://github.com/Necolizer/RM-PRT/edit/main/README.md)
+- [BCZ](https://github.com/Necolizer/RM-PRT/edit/main/README.md)
+- [Gato](https://github.com/Necolizer/RM-PRT/edit/main/README.md)
+- [RT-1](https://github.com/Necolizer/RM-PRT/edit/main/README.md)
+- [RT-LP](https://github.com/Necolizer/RM-PRT/edit/main/README.md)
 
 ## Available Baselines
 
