@@ -59,6 +59,7 @@ We have released the instructions for the training set, see the [file](https://g
 you can easily load the model, this is an example
 ```
 from bcz.Extractor import CustomExtractor
+
 action_nums=8
 bins=256
 net_arch=[]
