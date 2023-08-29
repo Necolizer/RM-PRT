@@ -2,7 +2,7 @@
 [[arXiv]](https://arxiv.org/abs/2306.11335) [[Website]](https://necolizer.github.io/RM-PRT/).
 
 ## To Do
-- [ ] Integrate the physical simulation tool Mujoco into UE5.
+- [ ] Mid-september: Integrate the physical simulation tool Mujoco into UE5.
 - [ ] Support more skills: pulling, pushing, pressing buttons, placing, opening/closing doors, etc.
 - [ ] Support more scenarios: retirement homes, coffee shops, etc. Currently, these scenes are already [online](https://necolizer.github.io/RM-PRT/), and corresponding interactive functions will be added.
 
