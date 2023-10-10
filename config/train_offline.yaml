@@ -1,0 +1,72 @@
+# 在初始目录运行：python main.py --config config/train.yaml
+# 实现：
+# 1. 每个trajectory都补足至或者随机采样至100帧
+# 2. 21个连续数据表示关节+1个离散数据表示是否抓取=22 按照RT-1原文进行tokenization至256 bins
+# 3. RGBD数据是在feeder中在线获取，这里没有实现RT-1原文的“历史6帧”，而是只取了当前1帧
+# 4. 由于服务器单卡的显存限制，设置了n_forward控制小批次的前向和反向，避免OOM
+
+seed: 1 # 固定所有的随机种子
+work_dir: /data2/maliang/zhangkaidong/IL/rt-1-IL/work_dir/rl090615 # 这个修改为希望存模型/存log的路径
+run_mode: train
+# weights: /data2/maliang/zhangkaidong/IL/rt-1-IL/work_dir/rl090318/model_30.pth
+
+# feeder
+feeder: feeders.feeder_rl_offline.Feeder
+train_feeder_args:
+  # data_path: /data1/datasets/robotic_manipulation/0720_single_obj_data
+  # data_path: /data1/datasets/robotic_manipulation/0718_single_obj_data
+  data_path: /data1/datasets/robotic_manipulation/0718_single_obj_data,/data1/datasets/robotic_manipulation/0816_two_obj_data
+  instructions_path: /data2/maliang/zhangkaidong/IL/rt-1-IL/instructions/training.csv
+  instructions_level : 3,4
+
+  sample_frame: 24
+  bin: 50
+
+test_feeder_args:
+  # data_path: /data1/datasets/robotic_manipulation/0720_single_obj_data
+  # data_path: /data1/datasets/robotic_manipulation/0718_single_obj_data
+  data_path: /data1/datasets/robotic_manipulation/0816_two_obj_data
+  instructions_path: /data2/maliang/zhangkaidong/IL/rt-1-IL/instructions/test.csv
+  instructions_level : 3,4
+
+  sample_frame: 24
+  bin: 50
+
+# model
+model: Model.RT1.RT1_state
+model_args:
+  action_nums: 7
+  bins: 50
+  dropout: 0.0
+  transformer_drop: 0.0
+
+# model: Model.RT1.cnn_model
+# model_args:
+#   in_channels: 3
+#   state_dims: 10
+#   num_actions: 7
+#   action_bins: 50
+
+#optim
+optimizer: AdamW
+weight_decay: 0.0004
+base_lr: 3.e-5  #continuous: 1e-3
+lr_decay_rate: 0.1
+step: [15, 25]
+warm_up_epoch: 5
+nesterov: True
+
+# loss
+# loss: CrossEntropy
+loss: MSELoss
+
+# training
+device: [0]
+cuda_visible_device: '3'
+batch_size: 4
+test_batch_size: 1
+num_worker: 4
+num_epoch: 30
+eval_interval: 1 # eval的epoch间隔
+n_forward: 3 # 每张GPU上的batchsize*sample_frame 须被 n_forward整除
+save_epoch: 1 # the start epoch to save model

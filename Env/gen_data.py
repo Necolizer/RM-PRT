@@ -1,3 +1,4 @@
+import os
 import time
 import random
 import math
@@ -18,9 +19,8 @@ import pandas as pd
 # import open3d as o3d
 # import matplotlib.pyplot as plt
 
-from gen_data import *
 
-dis_ = 20 # 两个obj之间的最小距离
+dis_ = 10 # 两个obj之间的最小距离
 name_type = {0: 'Mug',
  1: 'Banana',
  2: 'Toothpaste',
@@ -111,18 +111,25 @@ train_list=[x for x in train_list if (x not in ungrasp_list) and (x not in unsee
 # can_list = [0, 2,4,5,6,7,8,9,10,11,12,19,20,23,31,33,35,37,38,39,40,42,47,48,60,61,62,65,66,67,68,70,71,72]
 # can_list = [6, 47, 8, 9, 12, 48, 66, 67, 20, 40, 23, 31, 61, 19, 37, 33, 71, 10, 4, 70, 38, 68, 60, 2, 7, 5]
 # can_list = [6, 47, 8, 9, 48, 66, 67, 40, 23, 31, 61, 19, 37, 33, 71, 10, 4, 70, 38, 68,  2, 7, 5]
-can_list = [6, 47,         66,     40, 23,         19,                 4, 70,     68,  2,    5]
+can_list = [6, 47,         66,     40, 23,         19,                  70,     68,  2,    5]
+can_list = [6, 2,    5]
+# can_list = [5]
 # can_list = train_list.copy()
 # can_list = [ 38, 68,  2, 7, 5]
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
 def rand_data(exist_locate,deterministic):
     t0 = time.time()
     while True:
         type_ =  random.randint(0, len(can_list)-1)
-        # x =  random.randint(30, 55)
-        x =  random.randint(40, 70) #(40,75)
+        dx_range=[32.0006103515625, 46.98663330078125]
+        dy_range=[3.016784668475509, 22.954010010272384]
+        
+        x =  random.uniform(dx_range[0], dx_range[1])
+        # x =  random.randint(40, 70) #(40,75)
         # x =  random.randint(35, 50)
-        y =  random.randint(-15, 20)
+        # y =  random.randint(-15, 20)
+        y =  random.uniform(dy_range[0], dy_range[1])
         yaw = 0 #random.randint(0, 360)
 
         distances = [math.sqrt((x - coord[0])**2 + (y - coord[1])**2) for coord in exist_locate]
@@ -142,8 +149,11 @@ def gen_objs(sim_client,n,sceneID=0,deterministic=False):
     # print('------Generating objects------')
     # table_loc = [-1727,-1700,0,-1,1000]
     table_loc = [-210,-450,180,-1,1000]
+    dz_range=[98.02547607421874, 108.01591644287109]
+
     h = 100
     
+    h = random.uniform(dz_range[0],dz_range[1])
     # scene = sim_client.Do(GrabSim_pb2.Action(sceneID=sceneID, action=GrabSim_pb2.Action.ActionType.WalkTo, values=table_loc))
     # print('message',scene.info)
     # print('location',scene.location)
@@ -165,6 +175,7 @@ def gen_objs(sim_client,n,sceneID=0,deterministic=False):
         exist_locate.append([x_rand, y_rand])
 
         obj_list = [GrabSim_pb2.ObjectList.Object(x=ginger_loc[0] + x_rand, y=ginger_loc[1] + y_rand, yaw=yaw_rand, z=h, type=type_rand)]
+        # obj_list = [GrabSim_pb2.ObjectList.Object(X=ginger_loc[0] + x_rand, Y=ginger_loc[1] + y_rand, Yaw=yaw_rand, Z=h, type=type_rand)]
 
         scene = sim_client.MakeObjects(GrabSim_pb2.ObjectList(objects=obj_list, sceneID=sceneID))
         maked_objs.append([type_rand, ginger_loc[0] + x_rand, ginger_loc[1] + y_rand, h,yaw_rand])
@@ -190,7 +201,9 @@ def gen_scene_for_level3(sim_client,sceneID=0,training=True,targetObj=None):
     # print('------Generating objects------')
     # table_loc = [-1727,-1700,0,-1,1000]
     table_loc = [-210,-450,180,-1,1000]
+    dz_range=[98.02547607421874, 108.01591644287109]
     h = 100
+    h = random.uniform(dz_range[0],dz_range[1])
     scene = sim_client.CleanObjects(GrabSim_pb2.SceneID(value=sceneID))
     scene = sim_client.Observe(GrabSim_pb2.SceneID(value=sceneID))
     ginger_loc = [scene.location.X, scene.location.Y, scene.location.Z]
@@ -215,6 +228,7 @@ def gen_scene_for_level3(sim_client,sceneID=0,training=True,targetObj=None):
         exist_locate.append([x, y])
 
         obj_list = [GrabSim_pb2.ObjectList.Object(x=ginger_loc[0] + x, y=ginger_loc[1] + y, yaw=yaw, z=h, type=type)]
+        # obj_list = [GrabSim_pb2.ObjectList.Object(X=ginger_loc[0] + x, Y=ginger_loc[1] + y, Yaw=yaw, Z=h, type=type)]
 
         scene = sim_client.MakeObjects(GrabSim_pb2.ObjectList(objects=obj_list, sceneID=sceneID))
         maked_objs.append([type, ginger_loc[0] + x, ginger_loc[1] + y, h,yaw])
@@ -257,6 +271,7 @@ def gen_scene_for_level4(sim_client,sceneID=0,training=True,file='instructions/l
         exist_locate.append([x, y])
 
         obj_list = [GrabSim_pb2.ObjectList.Object(x=ginger_loc[0] + x, y=ginger_loc[1] + y, yaw=yaw, z=h, type=type)]
+        # obj_list = [GrabSim_pb2.ObjectList.Object(X=ginger_loc[0] + x, Y=ginger_loc[1] + y, Yaw=yaw, Z=h, type=type)]
 
         scene = sim_client.MakeObjects(GrabSim_pb2.ObjectList(objects=obj_list, sceneID=sceneID))
         maked_objs.append([type, ginger_loc[0] + x, ginger_loc[1] + y, h,yaw])
@@ -287,6 +302,7 @@ def gen_scene_from_data(sim_client,sceneID,scene):
         exist_locate.append([x, y])
 
         obj_list = [GrabSim_pb2.ObjectList.Object(x=ginger_loc[0] + x, y=ginger_loc[1] + y, yaw=yaw, z=h, type=type)]
+        # obj_list = [GrabSim_pb2.ObjectList.Object(X=ginger_loc[0] + x, Y=ginger_loc[1] + y, Yaw=yaw, Z=h, type=type)]
 
         scene = sim_client.MakeObjects(GrabSim_pb2.ObjectList(objects=obj_list, sceneID=sceneID))
         maked_objs.append([type, ginger_loc[0] + x, ginger_loc[1] + y, h,yaw])
@@ -309,16 +325,19 @@ def str2scene(a):
 
 def gen_scene(sim_client,level,sceneID=0,training=True,deterministic=False):
     assert level in [1,2,3,4]
-    df=pd.read_csv('instructions/training.csv')
+    file_path = os.path.join(current_dir, 'instructions/training.csv')
+    df=pd.read_csv(file_path)
     if level<=3:
         if level==1:
+            min_nums=1
             max_nums=1
         else:
-            max_nums=3
-        objs=gen_objs(sim_client,random.randint(1,max_nums),sceneID,deterministic)
+            min_nums=3
+            max_nums=4
+        objs=gen_objs(sim_client,random.randint(min_nums,max_nums),sceneID,deterministic)
         while len(objs)==0:
             time.sleep(1)
-            objs=gen_objs(sim_client,random.randint(1,max_nums),sceneID,deterministic)
+            objs=gen_objs(sim_client,random.randint(min_nums,max_nums),sceneID,deterministic)
         targetObj=name_type[objs[0][0]]
         df=df[(df['level']==level) & (df['object']==targetObj)]
         if level>2:

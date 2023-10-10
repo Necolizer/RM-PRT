@@ -7,8 +7,8 @@ import numpy as np
 import pickle
 from PIL import Image
 
-from utils import *
-from gen_data import *
+from .utils import *
+from .gen_data import *
 
 try:
     import GrabSim_pb2_grpc
@@ -22,11 +22,10 @@ except:
 
 class SimEnv(gym.Env):
     
-    
-    
-    def __init__(self,client,sceneID, deterministic=False,target=None,action_nums=11,bins=64,abs_distance=10,use_image=True,max_steps=100,level=1,training=True):
+    def __init__(self,client,sceneID, action_nums=11,bins=64,use_image=True,max_steps=100,level=1,training=True,mode='adsorption'):
         assert action_nums in [14, 11, 7, 8, 9]
-        
+        assert mode in ['adsorption','grasping']
+
         self.client=client
         channel = grpc.insecure_channel(self.client,options=[
             ('grpc.max_send_message_length', 1024*1024*1024),
@@ -35,24 +34,19 @@ class SimEnv(gym.Env):
         self.stub = GrabSim_pb2_grpc.GrabSimStub(channel)
         self.sceneID=sceneID
 
-        self.deterministic=deterministic
-        self.target=target
         self.action_nums=action_nums
         self.bins=bins
-        self.abs_distance=abs_distance
         self.use_image=use_image
         self.max_steps=max_steps
         self.level=level
         self.training=training
+        self.mode=mode
 
+        self.history_len=1
         self.scene=self.stub.Reset(GrabSim_pb2.ResetParams(sceneID=self.sceneID))
         self.jointsArrange=initJointsArrange()
         self.action_space = spaces.Box(low=-1, high=1, shape=(action_nums+1,), dtype=np.float32)
         self.observation_space = self.initObsSpaces()
-
-        if target is not None:
-            assert target in self.targets.keys()
-        
 
         self.cnt=0
         self.reset_counts=0
@@ -63,7 +57,7 @@ class SimEnv(gym.Env):
         print('successfully initialized')
     
     def initObsSpaces(self):
-        head_rgb=spaces.Box(low=0, high=1.0, shape=(224, 224, 4), dtype=np.float64)
+        head_rgb=spaces.Box(low=0, high=1.0, shape=(self.history_len,224, 224, 4), dtype=np.float64)
         state=spaces.Box(low=-np.inf,high=np.inf,shape=(7+7+7+3+3+1,),dtype=np.float64)
         instruction=spaces.Box(low=0,high=10000,shape=(2,),dtype=np.int64)
         return spaces.Dict({'head_rgb':head_rgb,'state':state,'instruction':instruction})   
@@ -127,7 +121,7 @@ class SimEnv(gym.Env):
         fingers=self.scene.fingers
         fingersLoc = []
         for finger in fingers:
-            Loc=finger.location[1]
+            Loc=finger.location[-1]
             fingersLoc.append([Loc.X, Loc.Y, Loc.Z])
         return np.array(fingersLoc)
 
@@ -138,14 +132,16 @@ class SimEnv(gym.Env):
             state.append(self.scene.joints[i].angle)
         Loc=self.getObjIDLocation(self.targetid)
         finger = self.getfingerLocation()[5+3-1]
-        diff = [Loc[i]-finger[i] for i in range(3)]
+        # diff = [Loc[i]-finger[i] for i in range(3)]
+        diff = [finger[0]-state[0], finger[1]-state[1], finger[2]]
         state.extend(diff)
 
         state.append(int(self.last_grasp))
 
         return np.array(state)
     
-    def getCamera(self, caremras=[GrabSim_pb2.CameraName.Head_Color,GrabSim_pb2.CameraName.Head_Depth]):
+    def getCamera(self, caremras=[GrabSim_pb2.CameraName.Head_Color]):
+        #caremras=[GrabSim_pb2.CameraName.Head_Color,GrabSim_pb2.CameraName.Head_Depth]
         action = GrabSim_pb2.CameraList(sceneID=self.sceneID, cameras=caremras)
         images = self.stub.Capture(action).images
         rgbd=[]
@@ -159,7 +155,7 @@ class SimEnv(gym.Env):
                 mat = mat/255.0
                 rgbd.append(mat)
             else:
-                t=150
+                t=100 #150
                 mat = 1.0 * mat
                 mat[mat>t]=t
                 mat=(mat/t*255).reshape((im.height, im.width)).astype(np.uint8)
@@ -174,9 +170,14 @@ class SimEnv(gym.Env):
     def getObservation(self):
         Obs={}
         if self.use_image:
-            Obs['head_rgb']=self.getCamera()
+            image=self.getCamera()
         else:
-            Obs['head_rgb']=np.random.rand(224,224,4)
+            image=np.random.rand(224,224,4)
+        if self.obs is None:
+            Obs['head_rgb']=np.expand_dims(image,0).repeat(self.history_len,axis=0)
+        else:
+            Obs['head_rgb']=np.concatenate([self.obs['head_rgb'][:self.history_len-1],image[None]],axis=0)
+
         Obs['state']=self.getState()
         Obs['instruction']=self.instructionIndex
         return Obs
@@ -217,7 +218,7 @@ class SimEnv(gym.Env):
 
         fingers=self.getfingerLocation()
 
-        fingerR3Loc = fingers[5+3-1]
+        fingerR3Loc = (fingers[5+1-1]+fingers[5+5-1])/2
         tcp_to_obj_pos = ObjLocs[:,1:]-fingerR3Loc
         nearest_obj_id = np.linalg.norm(tcp_to_obj_pos,axis=1).argmin()
         
@@ -236,17 +237,36 @@ class SimEnv(gym.Env):
         tcp_to_obj_dist = np.linalg.norm(tcp_to_obj_pos)
         return tcp_to_obj_dist
 
+    def purlicue_normal(self):
+        scene=self.getScene()
+        object_loc = self.getObjIDLocation(self.targetid)[:2]
+        r11 = scene.fingers[5].location[0]
+        r12 = scene.fingers[5].location[1]
+        r21 = scene.fingers[6].location[0]
+        r23 = scene.fingers[6].location[2]
+        bisector_loc = np.array([(r11.X + r21.X)/2,(r11.Y + r21.Y)/2])
+        object_vector = object_loc - bisector_loc
+
+        r1 = np.array([r12.X - r11.X,r12.Y - r11.Y])
+        r2 = np.array([r23.X - r21.X,r23.Y - r21.Y])
+        bisector_vector = r1 * np.linalg.norm(r2) + r2 * np.linalg.norm(r1)
+        cos_theta = bisector_vector.dot(object_vector)/(
+            np.linalg.norm(bisector_vector) * np.linalg.norm(object_vector))
+        theta=np.arccos(cos_theta)/np.pi * 180
+
+        return theta
+
     def compute_dense_reward(self, info):
 
         reward = 0.0
 
         if info["is_success"]:
-            reward += 5
+            reward += 3
             return reward
   
-        # id, Loc = self.get_nearest_obj()
-        # Loc = self.getObjIDLocation(self.targetid)
-        # fingers = self.getfingerLocation()
+        id, Loc = self.get_nearest_obj()
+        Loc = self.getObjIDLocation(self.targetid)
+        fingers = self.getfingerLocation()
 
         # tcp_to_obj_pos = Loc-fingers[5+3-1]
         # tcp_to_obj_dist = np.linalg.norm(tcp_to_obj_pos)
@@ -258,54 +278,53 @@ class SimEnv(gym.Env):
         reward += (self.last_dis -tcp_to_obj_dist  )/self.distance
         self.last_dis = tcp_to_obj_dist
 
-        # reward -= np.abs(self.state[3+3-1])/45*(1-np.tanh(0.01 * self.distance))/4
-        
-        reward -= np.abs((self.state[3+3-1]-self.last_back))/100
-        self.last_back=self.state[3+3-1]
-
-        # if info['rule_grasp']:
-        #     if self.rule_success==0:
-        #         reward+=1
-        #         self.rule_success=1
-
-        # if self.is_grasp:
-        #     reward=0
-        #     reward += 2
-        #     tcp_to_obj_pos = Loc-self.dest
-        #     tcp_to_obj_dist = np.linalg.norm(tcp_to_obj_pos)
-        #     reward += (1 - np.tanh(0.01 * tcp_to_obj_dist))
-        #     reward -= np.abs(self.state[3+3-1])/45/4
-        #     # reward -= np.abs(self.state[3+19-1]-70)/180/4
-
-        if not info["move_success"]:
-            reward -= 0.1
-        
-        # if self.counts>=self.max_steps:
+        if info['move_success']=='False':
+            reward-=0.2
 
         return reward
     
-    def check_grasp(self):
+    def check_grasp(self,mode):
         # id, Loc = self.get_nearest_obj()
+        msg=''
+
         id = self.targetid
         Loc = self.getObjIDLocation(self.targetid)
         fingers = self.getfingerLocation()
 
         flag=True
-        for i in [1,3,5]:
-            finger=fingers[5+i-1]
-            if np.linalg.norm(finger[:2]-Loc[:2])>6.5*1.9:
-                flag=False
-            
-        for i in [1,3]:
-            finger=fingers[5+i-1]
-            if np.abs(finger[2]-Loc[2])>4*1.9:
-                flag=False
-        
-        return flag
+        if np.linalg.norm(fingers[[5,7,9],:2]-Loc[:2],axis=-1).max()>6.5*1.9:
+            flag=False
+            msg+=f'horizon_dis {np.linalg.norm(fingers[[5,7,9],:2]-Loc[:2],axis=-1).max():.2f};'
+
+        if np.linalg.norm(fingers[[5,7],2]-Loc[2],axis=-1).max()>6*1.9:
+            flag=False
+            msg+=f'vertical_dis_max {np.linalg.norm(fingers[[5,7],2]-Loc[2],axis=-1).max():.2f};'
+
+        if mode=='adsorption':
+            return flag, flag, msg
     
-        # if flag==False:
-        #     return False, None, flag
+        if flag==False:
+            return flag, False, msg
         
+        flag=True
+        
+        if np.linalg.norm(fingers[[5,7,9],:2]-Loc[:2],axis=-1).max()>6.5*1.2:
+            flag=False
+            msg+=f'horizon_dis {np.linalg.norm(fingers[[5,7,9],:2]-Loc[:2],axis=-1).max():.2f};'
+
+        if np.linalg.norm(fingers[[5,7],2]-Loc[2],axis=-1).max()>6*1.5:
+            flag=False
+            msg+=f'vertical_dis_max {np.linalg.norm(fingers[[5,7],2]-Loc[2],axis=-1).max():.2f};'
+
+        # if np.linalg.norm(fingers[[5,7],2]-Loc[2],axis=-1).min()>4*1.2:
+        #     flag=False
+        #     msg+=f'vertical_dis_min {np.linalg.norm(fingers[[5,7],2]-Loc[2],axis=-1).min():.2f};'
+
+        if flag==False:
+            return True, flag, msg
+        
+        return True, True, msg
+
         # self.stub.Do(GrabSim_pb2.Action(sceneID=self.sceneID, action=GrabSim_pb2.Action.Grasp, values=[1, id]))
         # joints=self.state[3:3+21].copy()
         # joints[2]+=10
@@ -353,8 +372,18 @@ class SimEnv(gym.Env):
                     loc=2
                 else:
                     loc=i-2+14
+            if loc!=2:
+                if v>0:
+                    v=v*self.jointsArrange[loc,1]
+                else:
+                    v=-v*self.jointsArrange[loc,0]
+                
+                if joints[loc]<v:
+                    joints[loc]=min(joints[loc]+(self.jointsArrange[loc,1]-self.jointsArrange[loc,0])/(self.bins-1),v)
+                else:
+                    joints[loc]=max(joints[loc]-(self.jointsArrange[loc,1]-self.jointsArrange[loc,0])/(self.bins-1),v)
 
-            joints[loc]=joints[loc]+v*(self.jointsArrange[loc,1]-self.jointsArrange[loc,0])/self.bins
+                # joints[loc]=joints[loc]+v*(self.jointsArrange[loc,1]-self.jointsArrange[loc,0])/self.bins
             
         msg, collision=self.changeJoints(joints)
         if len(collision)>0:
@@ -374,7 +403,7 @@ class SimEnv(gym.Env):
         else:
             if action[-1]>0 and self.is_grasp==False and self.last_grasp==0:
                 self.last_grasp=1
-                arrive=self.check_grasp()
+                rule_success,arrive=self.check_grasp(self.mode)
             else:
                 self.last_grasp=0
                 msg,collision=self.Do(action[:-1])
@@ -429,12 +458,14 @@ class SimEnv(gym.Env):
 
         id, Loc=self.get_nearest_obj(self.targetObj)
         self.targetid = id
+        
         self.distance = self.compute_distance(Loc)
         self.last_dis = self.distance
         self.dest=Loc.copy()
         self.dest[2]+=30
         
         self.counts=0
+        self.obs=None
         self.obs=self.getObservation()
         self.state=self.obs['state']
         self.not_move=0
