@@ -40,7 +40,7 @@ See [simulator details](https://github.com/Necolizer/RM-PRT/blob/main/EnvIntrodu
 git clone -b main https://github.com/Necolizer/RM-PRT.git
 ```
 
-First download the [simulator]([https://drive.google.com/drive/folders/1jLXAU9eHE6rcpLtohepGlb654mUbA4KR?usp=sharing](https://drive.google.com/file/d/1bp6NflSx5qhBPl1gk7VLioXZLeA-HlXQ/view?usp=drive_link)) and open it on your computer. Then download a [model checkpoint]([https://drive.google.com/file/d/1shH1DV6_rrq7hS6Zn0LrfT7LXbDQt3Us/view?usp=drive_link](https://drive.google.com/file/d/1g_q3SGJatRW-ytECRtOCVDrEUomzY-QU/view?usp=drive_link)).
+First download the [simulator](https://drive.google.com/file/d/1bp6NflSx5qhBPl1gk7VLioXZLeA-HlXQ/view?usp=drive_link) and open it on your computer. Then download a [model checkpoint](https://drive.google.com/file/d/1g_q3SGJatRW-ytECRtOCVDrEUomzY-QU/view?usp=drive_link).
 
 Run sample.ipynb for quick starting.
 
