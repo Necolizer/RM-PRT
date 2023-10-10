@@ -57,33 +57,6 @@ The instructions are stored in the csv file, and each line stores the id, scene 
 | 42004445 | SpringWater,17,53, CocountMilk,19,61, Novel,-5,40, | CocountMilk | Please grab the creamy and flavorful object  on the front-right side that can be used as a dairy-free alternative in  cooking and baking and is located next to natural sourced water, ideal for  drinking and hydration. | 4    | 2    |
 
 
-<!---
-## Available Baselines
-- [BC-Z](https://github.com/Necolizer/RM-PRT/tree/main/bcz): Zero-Shot Task Generalization with Robotic Imitation Learning
-- [Gato](https://github.com/Necolizer/RM-PRT/tree/main/gato): A Generalist Agent
-- [RT-1](https://github.com/Necolizer/RM-PRT/tree/main/robotic_transformer_pytorch): Robotics Transformer for real-world control at scale
-- [RT-LP](https://github.com/Necolizer/RM-PRT/tree/main/RT-LP): Robotics Transformer with Language Parsing
-
-You can easily load the model, this is an example
-```
-from bcz.Extractor import CustomExtractor
-
-action_nums=8
-bins=256
-net_arch=[]
-policy_kwargs = dict(features_extractor_class=CustomExtractor,features_extractor_kwargs ={'action_nums':action_nums,'bins':bins}, net_arch=net_arch)
-
-num_envs = 1
-model = PPO("MultiInputPolicy", env, policy_kwargs=policy_kwargs, verbose=1,
-    n_steps=rollout_steps // num_envs, batch_size=batch_size,
-    n_epochs=10,
-    tensorboard_log=save_path,
-    gamma=gamma,
-    target_kl=target_kl,
-    learning_rate=learning_rate
-)
-```
----!>
 
 ## Citation
 ```
