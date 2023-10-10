@@ -82,8 +82,9 @@ model = PPO("MultiInputPolicy", env, policy_kwargs=policy_kwargs, verbose=1,
     target_kl=target_kl,
     learning_rate=learning_rate
 )
----!>
 ```
+---!>
+
 ## Citation
 ```
 @article{rmprt2023,
