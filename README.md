@@ -13,7 +13,7 @@
 🚀🚀 We have released the first version [1.0.0](https://github.com/Necolizer/RM-PRT/releases/tag/v1.0.0) of the RM-PRT benchmark simulator.   
    
    - Built on UE5.
-   - Supports [instruction tasks](https://github.com/Necolizer/RM-PRT/blob/main/Env/README.md#tasks) with 4 different difficulty levels.
+   - Supports [instruction tasks](https://github.com/Necolizer/RM-PRT/blob/main/EnvIntroduction/README.md#tasks) with 4 different difficulty levels.
    - Skill Library: Grab.
    - Scene: Restaurant.
      
@@ -32,7 +32,7 @@
 ### Resource Consumption
 In our experiments, we used 1 NVIDIA GeForce RTX 3090 GPU. And the simulator occupies approximately 2 to 3GB of GPU memory.
 ### Simulator
-See [simulator details](https://github.com/Necolizer/RM-PRT/blob/main/Env/README.md).
+See [simulator details](https://github.com/Necolizer/RM-PRT/blob/main/EnvIntroduction/README.md).
 
 ## Getting Started
 
@@ -57,7 +57,7 @@ The instructions are stored in the csv file, and each line stores the id, scene 
 | 42004445 | SpringWater,17,53, CocountMilk,19,61, Novel,-5,40, | CocountMilk | Please grab the creamy and flavorful object  on the front-right side that can be used as a dairy-free alternative in  cooking and baking and is located next to natural sourced water, ideal for  drinking and hydration. | 4    | 2    |
 
 
-
+<!---
 ## Available Baselines
 - [BC-Z](https://github.com/Necolizer/RM-PRT/tree/main/bcz): Zero-Shot Task Generalization with Robotic Imitation Learning
 - [Gato](https://github.com/Necolizer/RM-PRT/tree/main/gato): A Generalist Agent
@@ -82,6 +82,7 @@ model = PPO("MultiInputPolicy", env, policy_kwargs=policy_kwargs, verbose=1,
     target_kl=target_kl,
     learning_rate=learning_rate
 )
+---!>
 ```
 ## Citation
 ```
