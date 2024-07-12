@@ -1,0 +1,4 @@
+train:
+  _target_: feeders.Feeder
+test:
+  _target_: feeders.Feeder

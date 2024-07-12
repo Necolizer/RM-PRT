@@ -1,0 +1,47 @@
+# _target_: models.RTClip
+# clip_arch: 'ViT-B-32'
+# clip_path: /data2/liangxiwen/RM-PRT/IL/worldmodel/src/models/robotic_transformer_pytorch/clip_laion2b_s34b_b79k/open_clip_pytorch_model.bin
+# state_num: 3
+# num_actions: 3
+# embed_dim: 512
+
+# _target_: models.WdClip
+# clip_arch: 'ViT-B-32' # 'ViT-L-14' # 'ViT-B-32'
+# clip_path: /data2/liangxiwen/zkd/SeaWave/src/models/robotic_transformer_pytorch/clip_laion2b_s34b_b79k/open_clip_pytorch_model.bin #/data2/liangxiwen/RM-PRT/IL/worldmodel/src/models/robotic_transformer_pytorch/CLIP-ViT-L-14-laion2B-s32B-b82K/open_clip_pytorch_model.bin #/data2/liangxiwen/RM-PRT/IL/worldmodel/src/models/robotic_transformer_pytorch/clip_laion2b_s34b_b79k/open_clip_pytorch_model.bin
+# clip_visual_dim: 768 # 768 # 1024
+# clip_text_dim: 512 # 512 # 768
+# state_num: 3
+# num_actions: 7
+# depth: 6
+# embed_dim: 512
+
+# _target_: models.DamWorld
+# clip_arch: 'ViT-B-32' # 'ViT-L-14' # 'ViT-B-32'
+# clip_path: /data2/liangxiwen/zkd/SeaWave/checkpoints/clip_laion2b_s34b_b79k/open_clip_pytorch_model.bin #/data2/liangxiwen/RM-PRT/IL/worldmodel/src/models/robotic_transformer_pytorch/CLIP-ViT-L-14-laion2B-s32B-b82K/open_clip_pytorch_model.bin #/data2/liangxiwen/RM-PRT/IL/worldmodel/src/models/robotic_transformer_pytorch/clip_laion2b_s34b_b79k/open_clip_pytorch_model.bin
+# clip_visual_dim: 768 # 768 # 1024
+# clip_text_dim: 512 # 512 # 768
+# state_num: 45
+# num_actions: 8
+# depth: 6
+# embed_dim: 512
+#dropout: 0.1
+
+# _target_: models.Wdnofusion
+# clip_arch: 'ViT-B-32' # 'ViT-L-14' # 'ViT-B-32'
+# clip_path: /data2/liangxiwen/RM-PRT/IL/worldmodel/src/models/robotic_transformer_pytorch/clip_laion2b_s34b_b79k/open_clip_pytorch_model.bin #/data2/liangxiwen/RM-PRT/IL/worldmodel/src/models/robotic_transformer_pytorch/CLIP-ViT-L-14-laion2B-s32B-b82K/open_clip_pytorch_model.bin #/data2/liangxiwen/RM-PRT/IL/worldmodel/src/models/robotic_transformer_pytorch/clip_laion2b_s34b_b79k/open_clip_pytorch_model.bin
+# clip_visual_dim: 768 # 768 # 1024
+# clip_text_dim: 512 # 512 # 768
+# state_num: 3
+# num_actions: 3
+# depth: 6
+# embed_dim: 512
+
+_target_: models.RT1_state
+action_nums: 8 # 7 # 5
+state_num: 3
+bins: 50
+dropout: 0.1
+
+# _target_: models.bcz.BCZModel
+# state_nums: 3
+# action_nums: 3

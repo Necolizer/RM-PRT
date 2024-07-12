@@ -1,0 +1,142 @@
+defaults:
+  - _self_
+  - model: default
+
+use_origin_img: True
+
+textEmbeded:
+  lang_pdrop: 0.0
+
+env: 
+  num_actions: 7
+  control: 'ee' # 'ee'
+  # num_states: 10
+  bins: 50
+  client: localhost:30007
+  mode: 'grasping'
+  max_steps: 50
+#   test:
+#     _target_: ${..train._target_}
+#     id: ${..train.id}
+#     size: ${..train.size}
+#     max_episode_steps: 108000
+#     noop_max: 1
+#     frame_skip: ${..train.frame_skip}
+#     done_on_life_loss: False
+#     clip_reward: False
+
+datasets:
+  num_worker: 4
+  batch_size: 8
+  history_len: 3
+  train:
+    _target_: feeders.Feeder
+    control: ${env.control}
+    data_path:
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/1_objs_11
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/1_objs_4
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/2_objs_3
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/1_objs_graspTargetObj_Right_2
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/3_objs_graspTargetObj_Right
+      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/1_objs_graspTargetObj_Right_0320
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/1_objs_knockOver_Right
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/2_objs_knockOver_Right
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/2_objs_moveNear_Right
+
+    instructions_path: /data2/liangxiwen/zkd/IL/instructions/training.pkl
+    history_len: ${datasets.history_len}
+    instructions_level: 
+      - 0
+#       - 1
+#       - 2
+      # - 3
+      # - 4
+    sample_frame: 1
+    bin: 50
+    img_size: 224
+    data_size: null
+    dataAug: True
+  test:
+    _target_: feeders.Feeder
+    control: ${env.control}
+    data_path:
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/1_objs_11
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/1_objs_4
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/2_objs_3
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/3_objs_graspTargetObj_Right
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/1_objs_graspTargetObj_Right_2
+      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/2_objs_graspTargetObj_Right_0322
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/1_objs_knockOver_Right
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/2_objs_knockOver_Right
+#      - /data2/liangxiwen/zkd/datasets/dataGen/DATA/2_objs_moveNear_Right
+    instructions_path: /data2/liangxiwen/zkd/IL/instructions/training.pkl
+    history_len: ${datasets.history_len}
+    instructions_level: 
+      - 0
+#       - 1
+#       - 2
+      # - 3
+      # - 4
+    sample_frame: 1
+    bin: 50
+    img_size: 224
+    data_size: 100
+    dataAug: False
+  eval:
+    file_path: /data2/liangxiwen/zkd/IL/instructions/test_level # /data2/liangxiwen/RM-PRT/IL/RLexpert/0718_single_merge_data_new.pkl
+    history_len: ${datasets.history_len}
+    levels: 0
+    control: ${env.control}
+
+wandb:
+  mode: offline
+  project: worldmodel
+  entity: null
+  name: null
+  group: null
+  tags: null
+  notes: null
+
+common:
+  epochs: 10000
+  device: cuda:0
+  do_checkpoint: True
+  seed: 0
+  sequence_length: 1 # ${world_model.max_blocks}
+  resume: False # set by resume.sh script only.
+
+initialization:
+#  path_to_checkpoint: /data2/liangxiwen/zkd/SeaWave/outputs/2024-02-20/11-44-02/checkpoints/last.pt # /data2/liangxiwen/zkd/SeaWave/outputs/2024-02-17/21-41-10/checkpoints/last.p-t #/data2/liangxiwen/zkd/SeaWave/outputs/2024-02-17/14-02-01/checkpoints/last.pt  #/data2/liangxiwen/zkd/SeaWave/outputs/2024-02-15/10-31-52/checkpoints/last.pt
+  path_to_checkpoint: /data2/liangxiwen/zkd/SeaWave/outputs/2024-03-24/11-57-02/checkpoints/last.pt # /data2/liangxiwen/zkd/SeaWave/outputs/2024-03-01/19-32-27/checkpoints/last.pt-
+  # 00-14-47
+  load_tokenizer: False
+  load_world_model: True 
+  load_actor: True
+
+training:
+  should: True
+
+  agent:
+    batch_num_samples: 64
+    grad_acc_steps: 1
+    max_grad_norm: 10.0
+    weight_decay: 0.00001 # 0.01
+    start_after_epochs: 0
+    learning_rate: 0.00001 # 0.00001
+    lr_scheduler_func: CosineAnnealingLR # StepLR CosineAnnealingLR
+    lr_scheduler_config: 
+      T_max: 10
+      eta_min: 0.0000005 # 0.000001 # 0.0000005
+      # step_size: 20
+    loss_weight:
+      - 1
+      - 0
+
+evaluation:
+  should: True
+  every: 1
+  agent:
+    batch_num_samples: 64
+    grad_acc_steps: 1
+    max_grad_norm: 10.0
+    start_after_epochs: 0

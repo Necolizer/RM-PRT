@@ -1,0 +1,11 @@
+_target_: models.Actor
+
+state_nums: 10
+action_nums: 7
+transformer_config:
+  depth: 6
+  heads: 8
+  dim_head: 64
+  embed_dim: 512
+embed_dim: 512
+dropout: 0.1
