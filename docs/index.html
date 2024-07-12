@@ -117,16 +117,95 @@
   </div>
 </section>
 
-<section class="hero teaser">
+<section class="section">
   <div class="container is-max-desktop">
-    <div class="hero-body">
-        <img src="./static/images/model.png" alt>
-      <h2 class="subtitle has-text-centered">
-        The overall framework of Surfer.
-      </h2>
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-five-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+          Considering how to make the model accurately understand and follow natural language instructions and perform actions consistent with world knowledge is a key challenge in robot manipulation. This mainly includes human fuzzy instruction reasoning and the following of physical knowledge. Therefore, the embodied intelligence agent must have the ability to model world knowledge from training data. However, most existing vision and language robot manipulation methods mainly operate in less realistic simulators and language settings and lack explicit modeling of world knowledge.
+          </p>
+          <p>
+          To bridge this gap, we introduce a novel and simple robot manipulation framework, called <strong>Surfer</strong>. It is based on the world model, treats robot manipulation as a state transfer of the visual scene, and decouples it into two parts: action and scene. Then, the generalization ability of the model on new instructions and new scenes is enhanced by explicit modeling of the action and scene prediction in multi-modal information. In addition to the framework, we also built a robot manipulation simulator that supports physics execution based on the MuJoCo physics engine. It can automatically generate demonstration training data and test data, effectively reducing labor costs.
+          </p>
+          <p>
+          To conduct a comprehensive and systematic evaluation of the robot manipulation model in terms of language understanding and physical execution, we also created a robotic manipulation benchmark with progressive reasoning tasks, called <strong>SeaWave</strong>. It contains 4 levels of progressive reasoning tasks and can provide a standardized testing platform for embedded AI agents in multi-modal environments. <em>Overall, we hope Surfer can freely surf in the robot's SeaWave benchmark.</em> Extensive experiments show that Surfer consistently outperforms all baselines by a significant margin in all manipulation tasks. On average, Surfer achieved a success rate of 54.74% on the defined four levels of manipulation tasks, exceeding the best baseline performance of 51.07%.
+          </p>
+        </div>
+      </div>
     </div>
+    <!--/ Abstract. -->
   </div>
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-five-fifths">
+      <!-- <div class="hero-body"> -->
+        
+        <h2 class="title is-3">Surfer</h2>
+        <div class="content has-text-justified">
+        <p>
+          The overall framework of Surfer. It is a manipulation model based on the world model to simulate the physical laws of robot action execution. Sufer’s world model is mainly composed of an action prediction module and a scene prediction module. They are guided by language instructions P and predicted actions A′ respectively, helping the model learn physical laws from the robot’s historical action trajectories I.
+        </p>
+      </div>
+          <img src="./static/images/model.png" alt>
+        <!-- <h2 class="subtitle has-text-centered">
+          The overall framework of Surfer.
+        </h2> -->
+      <!-- </div> -->
+    </div>
+    </div>
+    </div>
+
+
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-five-fifths">
+        <h2 class="title is-3">Real Machine Demo</h2>
+        <div class="publication-video">
+          <video id="3" autoplay muted loop playsinline height="100%">
+          <source src="./static/videos/3.mp4"
+                  type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  
 </section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-five-fifths">
+        <h2 class="title is-3">SeaWave</h2>
+        <!-- <div class="publication-video">
+          <video id="1" autoplay muted loop playsinline height="100%">
+          <source src="./static/videos/1.mp4"
+                  type="video/mp4">
+          </video>
+        </div> -->
+
+        <!-- <div class="publication-video">
+          <video id="2" autoplay muted loop playsinline height="100%">
+          <source src="./static/videos/2.mp4"
+                  type="video/mp4">
+          </video>
+        </div> -->
+    
+        <!-- <h2 class="title is-3">Workspace</h2> -->
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/k6V9LHUi2hw?rel=0&amp;showinfo=0" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media; gyroscope" allowfullscreen></iframe>
+        </div>
+      </div>
+      </div>
+    </div>
+</section>
+
+
+
 
 <section class="hero is-light is-small">
   <div class="hero-body">
@@ -150,87 +229,14 @@
 </section>
 
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            Recently, the advent of pre-trained large-scale language models (LLMs) like ChatGPT and GPT-4 have significantly advanced the machine's natural language understanding capabilities. 
-            This breakthrough has allowed us to seamlessly integrate these open-source LLMs into a unified robot simulator environment to help robots accurately understand and execute human natural language instructions. 
-          </p>
-          <p>
-            To this end, in this work, we introduce a realistic robotic manipulation simulator and build a <span class="highlight">Robotic Manipulation with Progressive Reasoning Tasks (RM-PRT) benchmark</span> on this basis. 
-            Specifically, the RM-PRT benchmark builds a new high-fidelity digital twin scene based on Unreal Engine 5, which includes 782 categories, 2023 objects, and 15K natural language instructions generated by ChatGPT for a detailed evaluation of robot manipulation. 
-            We propose a general pipeline for the RM-PRT benchmark that takes as input multimodal prompts containing natural language instructions and automatically outputs actions containing the movement and position transitions. 
-            We set four natural language understanding tasks with progressive reasoning levels and evaluate the robot's ability to understand natural language instructions in two modes of adsorption and grasping. 
-            In addition, we also conduct a comprehensive analysis and comparison of the differences and advantages of 10 different LLMs in instruction understanding and generation quality. 
-            
-          </p>
-          <p>
-            We hope the new simulator and benchmark will facilitate future research on language-guided robotic manipulation.
-          </p>
-        </div>
-      </div>
-    </div>
-    <!--/ Abstract. -->
 
-    <!-- Paper video. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Robotic Manipulation</h2>
-        <div class="publication-video">
-          <video id="1" autoplay muted loop playsinline height="100%">
-          <source src="./static/videos/1.mp4"
-                  type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <div class="publication-video">
-          <video id="2" autoplay muted loop playsinline height="100%">
-          <source src="./static/videos/2.mp4"
-                  type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Workspace</h2>
-        <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/k6V9LHUi2hw?rel=0&amp;showinfo=0" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media; gyroscope" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Real Machine Demo</h2>
-        <div class="publication-video">
-          <video id="3" autoplay muted loop playsinline height="100%">
-          <source src="./static/videos/3.mp4"
-                  type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-    <!--/ Paper video. -->
-  </div>
-</section>
 
 
 
 <section class="section">
   <div class="container is-max-desktop">
     <div class="columns is-centered">
-      <div class="column is-four-fifths">
+      <div class="column is-five-fifths">
         <!-- Pipeline. -->
         <h2 class="title is-3">Pipeline</h2>
         <!-- <div class="content has-text-justified">
@@ -243,49 +249,76 @@
         <!-- Tasks. -->
         <h2 class="title is-3">Progressive Reasoning Tasks</h2>
         <img src="./static/images/multi_level_tasks.jpg" alt>
-        <!-- <div class="content has-text-justified">
-        
-        </div> -->
-        <!--/ Tasks. -->
-        <br><br>
-        <!-- LLM Eval. -->
-        <h2 class="title is-3">Evaluation of LLMs on RM</h2>
-        <img src="./static/images/LLMs_eval.png" alt>
-        <!-- <div class="content has-text-justified">
-        
-        </div> -->
-        <!--/ LLM Eval. -->
-
-        <br><br>
-        <!-- Scenes Being Built. -->
-        <h2 class="title is-3">Scenes Being Built</h2>
-        <img src="./static/images/render/HighresScreenshot00003.png" alt width="250"><img src="./static/images/render/HighresScreenshot00005.png" alt width="250"><img src="./static/images/render/HighresScreenshot00007.png" alt width="250">
-        <h2 class="subtitle has-text-centered">
-          Retirement Home
-        </h2>
-
-        <img src="./static/images/render/HighresScreenshot00016.png" alt width="250"><img src="./static/images/render/HighresScreenshot00017.png" alt width="250"><img src="./static/images/render/HighresScreenshot00018.png" alt width="250">
-        <h2 class="subtitle has-text-centered">
-          Cafe
-        </h2>
-        <div class="content has-text-justified">
-          RM-PRT has Retirement Home & Cafe scenes and we are now working on their APIs.
-        </div>
-        <!--/ Scenes Being Built. -->
       </div>
     </div>
   </div>
 </section>
 
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-five-fifths">
+        <h2 class="title is-3">Experiment Results</h2>
+      </div>
+      </div>
+    </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-five-fifths">
+        <!-- Pipeline. -->
+        <h2 class="title is-3"> Results on Robotic Manipulation</h2>
+        <p>In this section, we evaluate the performance of Surfer in progressive instruction reasoning tasks. In the SeaWave benchmark, the training and testing environments mainly include instructions and scenes <em>(i.e.)</em>, objects, tables, spatial positional relationships, and rotation information, etc. Because the scenarios are regenerated each time, the scene is unseen for each level of task. At the time of testing, since the level 1 instructions are in the form of "verb + noun", they are seen. For levels 2, 3, and 4, human-like natural language instructions are used, so they are unseen, and the corresponding number of instructions is 80, 172, and 226, respectively.</p>
+        <p>Compared to other baselines, Surfer achieves the best manipulation success rate on almost all tasks. Specifically, compared to baseline RT-1, Surfer's manipulation success rate increased by an average of 7.1% on four levels of progressive reasoning tasks. It is worth noting that Surfer still has a 3.15% (37.89% <em>vs.</em> 34.74%) improvement in the most challenging level 4 tasks. In addition, compared with GR-1, which also uses scene prediction ideas, Surfer still achieved a significant improvement of 3.67% (54.74% <em>vs</em> 51.07%) on average on four levels of manipulation tasks. This shows that Surfer is very effective in modeling robot manipulators' perception of scene changes by world model associated action on prediction and scene prediction.</p>
+
+        <img src="./static/images/table1.png" alt>
+        
+        <!--/ Pipeline. -->
+        <br><br>
+        <!-- Tasks. -->
+        <h2 class="title is-3">Model Robustness</h2>
+        <p>Here, we evaluate the robustness of Surfer in different scenarios using the average manipulation success rate of the model on level 2, 3, and 4 tasks. New scenarios include unseen backgrounds <em>(i.e.), unseen tables</em>, changing light intensity, and more distractions <em>(i.e.), more objects. These scenarios were never seen during model training.</p>
+        <p>We found that more distractors significantly reduced the success rate of model manipulation. In particular, we find that Octo maintains the best robustness compared to other methods, which may be because it uses more training trajectories.</p>
+        <p>Overall, under various interference factors, Surfer still maintains a significant performance advantage compared to other baselines (e.g., Surfer vs RT-1: 44.44% vs 38.05%). And under three different scene changes, the average performance loss ratio of Surfer is only 8%. In comparison, the performance loss ratios of GR-1 and BC-Z reached 11% and 43%, respectively. This indicates that Surfer has good robustness with the help of the world model.</p>
+        <img src="./static/images/table2.png" alt>
+        <br><br>
+
+        <h2 class="title is-3">Videos</h2>
+        <div class="publication-video" style="text-align: center; font-size: 24px; font-weight: bold;">
+          <video id="3" autoplay muted loop playsinline height="100%">
+          <source src="./static/videos/examples1.mp4"
+                  type="video/mp4">
+          </video>
+          <p>Please<span style="color: red;">pick up</span> the item that is positioned <span style="color: blue;">behind right</span>.</p>
+        </div>
+        <div class="publication-video" style="text-align: center; font-size: 24px; font-weight: bold;">
+          <video id="3" autoplay muted loop playsinline height="100%">
+          <source src="./static/videos/examples2.mp4"
+                  type="video/mp4">
+          </video>
+          <p>Can you <span style="color: red;">put</span> the <span style="color: blue;">green bottle</span> and the <span style="color: blue;">chips</span> <span style="color: red;">together?</span></p>
+        </div>
+
+        <br><br>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
-    <pre><code>@article{rmprt2023,
-      title={RM-PRT: Realistic Robotic Manipulation Simulator and Benchmark with Progressive Reasoning Tasks}, 
+    <pre><code>@misc{ren2024surferprogressivereasoningworld,
+      title={Surfer: Progressive Reasoning with World Models for Robotic Manipulation}, 
       author={Pengzhen Ren and Kaidong Zhang and Hetao Zheng and Zixuan Li and Yuhang Wen and Fengda Zhu and Mas Ma and Xiaodan Liang},
-      year={2023},
-      journal={arXiv:2306.11335}
+      year={2024},
+      eprint={2306.11335},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2306.11335}, 
 }</code></pre>
   </div>
 </section>
